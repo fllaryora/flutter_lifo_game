@@ -2,48 +2,46 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class NumberInput extends StatelessWidget {
-  NumberInput({
+  const NumberInput({
     required this.label,
-    this.controller,
-    this.value,
-    this.onChanged,
-    this.error,
-    this.icon,
-    this.allowDecimal = false,
+    required this.hint,
+    required this.controller,
+    required this.onChanged,
   });
 
-  final TextEditingController? controller;
-  final String? value;
+  final TextEditingController controller;
   final String label;
-  final Function? onChanged;
-  final String? error;
-  final Widget? icon;
-  final bool allowDecimal;
-  final bool disabled = false;
+  final String hint;
+  final Function onChanged;
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      initialValue: value,
-      onChanged: onChanged as void Function(String)?,
-      readOnly: disabled,
-      keyboardType: TextInputType.numberWithOptions(decimal: allowDecimal),
-      inputFormatters: <TextInputFormatter>[
-        FilteringTextInputFormatter.allow(RegExp(_getRegexString())),
-        TextInputFormatter.withFunction(
-              (oldValue, newValue) => newValue.copyWith(
-            text: newValue.text.replaceAll('.', ','),
+    return Padding(
+      padding: const EdgeInsets.only(top: 10, bottom: 10.0,
+          left: 20.0, right: 20.0),
+      child: TextField(
+        controller: controller,
+        keyboardType: TextInputType.number,
+        inputFormatters: [
+          FilteringTextInputFormatter.digitsOnly
+        ],
+        decoration: InputDecoration(
+          focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Color(0xff786e9d), width: 4.0),
           ),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color:Color(0xff9d916b), width: 4.0),
+          ),
+          hintText: hint,
+          labelText: label,
+          labelStyle: const TextStyle(color: Color(0xff9d916b),
+              fontStyle: FontStyle.normal, fontSize: 20),
         ),
-      ],
-      decoration: InputDecoration(
-        label: Text(label),
-        errorText: error,
-        icon: icon,
+        onChanged: onChanged as void Function(String),
+        style: const TextStyle(color: Color(0xff9d916b),
+            fontStyle: FontStyle.normal, fontSize: 20),
       ),
     );
   }
 
-  String _getRegexString() =>
-      allowDecimal ? r'[0-9]+[,.]{0,1}[0-9]*' : r'[0-9]';
+
 }

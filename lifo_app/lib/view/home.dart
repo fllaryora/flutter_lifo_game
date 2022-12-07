@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lifo_app/view/material_helper.dart';
+import 'package:lifo_app/view/numeral_text_field.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -36,28 +37,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   )
               ),
             ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10, bottom: 10.0,
-                left: 20.0, right: 20.0),
-            child: TextField(
+            NumberInput(
+              label: 'Items per tube ',
+              hint: 'How many balls it has?',
               controller: nameController,
-              keyboardType: TextInputType.number,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly
-              ],
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                 focusedBorder: OutlineInputBorder(
-                   borderSide: BorderSide(color: Color(0xff786e9d), width: 5.0),
-                 ),
-                 enabledBorder: OutlineInputBorder(
-                   borderSide: BorderSide(color:Color(0xff9d916b), width: 5.0),
-                 ),
-                hintText: 'How many balls it has?',
-                labelText: 'Items per tube ',
-                labelStyle: TextStyle(color: Color(0xff9d916b),
-                    fontStyle: FontStyle.normal, fontSize: 20),
-              ),
               onChanged: (text) {
                 int? possibleNull = int.tryParse(text);
                 if(possibleNull != null){
@@ -67,7 +50,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 }
               },
             ),
-          ),
           ],
         ),
       ),
