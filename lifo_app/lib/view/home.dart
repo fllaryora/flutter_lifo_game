@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lifo_app/data/model/Tube.dart';
+import 'package:lifo_app/data/model/scenario.dart';
 import 'package:lifo_app/view/configure.dart';
 
 import 'package:lifo_app/view/subwidgets/consigna_text.dart';
@@ -26,11 +28,10 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       backgroundColor: const Color(0xfffffaeb),
       appBar: AppBar(title: Text(widget.title),),
-      body: Center(
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
           child: Column(
             //start == top
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             //start == leading / left
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -89,11 +90,17 @@ class _MyHomePageState extends State<MyHomePage> {
                   }
                 },
               ),
+              const SizedBox(
+                height: 20.0,
+              ),
               Material(
                 color: Colors.blueGrey.shade300,
                 borderRadius: BorderRadius.circular(50),
                 child: InkWell(
                   onTap: () {
+                    maxColors = _amountOfColors;
+                    maxSpaces = _itemsPerTube;
+                    extraTubes = _extraTubes;
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => ConfigurePage(title: widget.title,
@@ -120,7 +127,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
-      ),
     );
   }
 

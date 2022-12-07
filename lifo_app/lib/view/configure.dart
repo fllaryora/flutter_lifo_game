@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lifo_app/data/model/Tube.dart';
 import 'package:lifo_app/data/model/scenario.dart';
+import 'package:lifo_app/view/subwidgets/ball.dart';
 import 'package:lifo_app/view/subwidgets/consigna_text.dart';
 import 'package:lifo_app/view/subwidgets/numeral_text_field.dart';
 
@@ -21,15 +22,16 @@ class _ConfigurePageState extends State<ConfigurePage> {
 
   @override
   Widget build(BuildContext context) {
+    print("amountOfColors: " + widget.amountOfColors.toString());
 
+    List<Tube> tubes =
+      List.filled(widget.amountOfColors + widget.extraTubesToUse, Tube());
     return Scaffold(
       backgroundColor: const Color(0xfffffaeb),
       appBar: AppBar(title: Text(widget.title),),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
+      body: Column(
             //start == top
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             //start == leading / left
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -46,21 +48,42 @@ class _ConfigurePageState extends State<ConfigurePage> {
                     )
                 ),
               ),
-              ListView(
-                scrollDirection: Axis.horizontal,
-                children: <Widget>[
-                  //your widget items here
-                ],
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 20.0),
+                height: 210.0, //210 son 4 tubos
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: <Widget>[
+                    //your widget items here
+                    //El tubo es esto
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20,right: 20),
+                      child: Card(
+                        shape: const RoundedRectangleBorder(
+                          side: BorderSide(
+                            color: Colors.blueAccent,
+                          ),
+                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20.0),
+                              bottomRight: Radius.circular(20.0)),
+                        ),
+                        child: Column(
+                          children: [
+                            //Ball( amount: widget.amountOfColors,),
+                            //Ball( amount: widget.amountOfColors,),
+                            //Ball( amount: widget.amountOfColors,),
+                            Ball( amount: widget.amountOfColors,),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
               Material(
                 color: Colors.blueGrey.shade300,
                 borderRadius: BorderRadius.circular(50),
                 child: InkWell(
                   onTap: () {
-              //      maxColors = _amountOfcolors;
-                //    maxSpaces = _itemsPerTube;
-                  //  extraTubes = _extraTubes;
-
                   },
                   borderRadius: BorderRadius.circular(50),
                   child: Container(
@@ -78,8 +101,6 @@ class _ConfigurePageState extends State<ConfigurePage> {
               )
             ],
           ),
-        ),
-      ),
     );
   }
 }
