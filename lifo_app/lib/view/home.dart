@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lifo_app/view/consigna_text.dart';
-import 'package:lifo_app/view/material_helper.dart';
-import 'package:lifo_app/view/numeral_text_field.dart';
+import 'package:lifo_app/view/configure.dart';
+
+import 'package:lifo_app/view/subwidgets/consigna_text.dart';
+import 'package:lifo_app/view/subwidgets/numeral_text_field.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -16,7 +17,7 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController itemController = TextEditingController(text: '4');
   int _extraTubes = 2;
   TextEditingController extrasController = TextEditingController(text: '2');
-  int _amountOfcolors = 10;
+  int _amountOfColors = 10;
   TextEditingController colorsController = TextEditingController(text: '10');
 
   @override
@@ -69,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   int? possibleNull = int.tryParse(text);
                   if(possibleNull != null){
                     setState(() {
-                      _amountOfcolors = possibleNull;
+                      _amountOfColors = possibleNull;
                     });
                   }
                 },
@@ -92,7 +93,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.blueGrey.shade300,
                 borderRadius: BorderRadius.circular(50),
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ConfigurePage(title: widget.title,
+                          itemsPerTube:_itemsPerTube,
+                          amountOfColors: _amountOfColors,
+                          extraTubesToUse: _extraTubes,
+                      )),
+                    );
+                  },
                   borderRadius: BorderRadius.circular(50),
                   child: Container(
                     width: 200,

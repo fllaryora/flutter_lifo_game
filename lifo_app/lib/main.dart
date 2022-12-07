@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lifo_app/view/home.dart';
-import 'package:lifo_app/view/material_helper.dart';
+import 'package:lifo_app/view/helpers/material_helper.dart';
 
 void main() {
   runApp(const MyApp());
