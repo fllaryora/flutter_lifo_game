@@ -13,6 +13,7 @@ class MottoText extends StatelessWidget {
           left: 20.0, right: 20.0),
       child: Text(
           title,
+          textAlign: TextAlign.start,
           style: const TextStyle(fontWeight: FontWeight.normal,
               fontSize: 20,
               color: Color(0xff9d916b)
