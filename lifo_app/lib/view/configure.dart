@@ -24,7 +24,7 @@ class _ConfigurePageState extends State<ConfigurePage> {
     tubes = List.filled(widget.amountOfColors + widget.extraTubesToUse, <int>[]);
     for(int tubeIndex = 0; tubeIndex < widget.amountOfColors; tubeIndex++) {
       for(int ballIndex = 0; ballIndex < widget.itemsPerTube; ballIndex++) {
-        int indexColor = Random().nextInt(widget.amountOfColors - 1) + 1;
+        int indexColor = Random().nextInt(widget.amountOfColors - 1) ;
         List<int> thisTube = tubes[tubeIndex];
         thisTube.add(indexColor);
       }
@@ -76,6 +76,7 @@ class _ConfigurePageState extends State<ConfigurePage> {
                         tubes
                     );
 
+                    print(scenarioToExperiment);
                     if(! scenarioToExperiment.isValid ) {
                       _displayDialog(context, 'The scenario is not valid');
                       return;

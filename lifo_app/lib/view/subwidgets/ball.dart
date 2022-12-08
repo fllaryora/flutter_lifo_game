@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class Ball extends StatefulWidget {
   Ball({super.key, required this.amount,
-  required this.initialColor, required this.onChanged});
+  required this.initialColorIndex, required this.onChanged});
   final int amount;
-  final int initialColor;
+  final int initialColorIndex;
   late BallState currentState;
   final Function onChanged;
   @override
@@ -18,7 +18,7 @@ class BallState extends State<Ball> {
   late int maxIndex ;
   @override
   void initState() {
-    currentColorIndex = widget.initialColor - 1;
+    currentColorIndex = widget.initialColorIndex;
     maxIndex = widget.amount-1;
     super.initState();
   }
