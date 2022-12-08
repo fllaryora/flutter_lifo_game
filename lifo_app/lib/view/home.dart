@@ -15,12 +15,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _itemsPerTube = 4;
-  TextEditingController itemController = TextEditingController(text: '4');
+  int _itemsPerTube = 2;
+  TextEditingController itemController = TextEditingController(text: '2');
   int _extraTubes = 2;
   TextEditingController extrasController = TextEditingController(text: '2');
-  int _amountOfColors = 10;
-  TextEditingController colorsController = TextEditingController(text: '10');
+  int _amountOfColors = 3;
+  TextEditingController colorsController = TextEditingController(text: '3');
 
   @override
   Widget build(BuildContext context) {
@@ -112,6 +112,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     }
                     if(_extraTubes < 2 ) {
                       _displayDialog(context, 'Extra tubes must be grater than 1');
+                      return;
+                    }
+                    if(_amountOfColors < 2 ) {
+                      _displayDialog(context, 'Amount of colors must be grater than 1');
                       return;
                     }
                     maxColors = _amountOfColors;

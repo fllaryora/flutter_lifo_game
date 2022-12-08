@@ -68,6 +68,10 @@ class Scenario {
       }
     }
     bool allValids = true;
+    if(eachColorAmount.isEmpty) {
+      //Caso colores repetidos en demasia
+      print("eachColorAmount esta vacio" );
+    }
     eachColorAmount.forEach((int key, int value) {
       int amount = eachColorAmount[key]!;
       allValids = allValids & (amount == maxSpaces);

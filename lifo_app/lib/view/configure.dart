@@ -1,8 +1,7 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lifo_app/data/model/Tube.dart';
 import 'package:lifo_app/data/model/scenario.dart';
-import 'package:lifo_app/view/subwidgets/ball.dart';
 import 'package:lifo_app/view/subwidgets/tube.dart';
 
 class ConfigurePage extends StatefulWidget {
@@ -14,14 +13,23 @@ class ConfigurePage extends StatefulWidget {
   final int amountOfColors;
   final int extraTubesToUse;
   @override
-  State<ConfigurePage> createState() => _ConfigurePageState(amountOfColors);
+  State<ConfigurePage> createState() => _ConfigurePageState();
 }
 
 class _ConfigurePageState extends State<ConfigurePage> {
 
   late List<List<int>> tubes;
-  _ConfigurePageState(int amountOfColors){
-    tubes = List.filled(amountOfColors, <int>[]);
+  @override
+  void initState() {
+    tubes = List.filled(widget.amountOfColors + widget.extraTubesToUse, <int>[]);
+    for(int tubeIndex = 0; tubeIndex < widget.amountOfColors; tubeIndex++) {
+      for(int ballIndex = 0; ballIndex < widget.itemsPerTube; ballIndex++) {
+        int indexColor = Random().nextInt(widget.amountOfColors - 1) + 1;
+        List<int> thisTube = tubes[tubeIndex];
+        thisTube.add(indexColor);
+      }
+    }
+    super.initState();
   }
 
   @override
@@ -64,6 +72,17 @@ class _ConfigurePageState extends State<ConfigurePage> {
                 child: InkWell(
                   onTap: () {
 
+                    Scenario scenarioToExperiment = Scenario.fromColors(
+                        tubes
+                    );
+
+                    if(! scenarioToExperiment.isValid ) {
+                      _displayDialog(context, 'The scenario is not valid');
+                      return;
+                    } else {
+                      _displayDialog(context, 'VALID');
+                    }
+
                   },
                   borderRadius: BorderRadius.circular(50),
                   child: Container(
@@ -87,11 +106,21 @@ class _ConfigurePageState extends State<ConfigurePage> {
     List<Widget> tubesW = <Widget>[];
     for(int tubeIndex = 0; tubeIndex < widget.amountOfColors; tubeIndex++) {
       tubesW.add (TubeComponent(amountOfColors: widget.amountOfColors,
-          itemsPerTube: widget.itemsPerTube,
+          itemsPerTube: widget.itemsPerTube, initialTube: tubes[tubeIndex],
           onChanged: (List<int> tube) {
             tubes[tubeIndex] = tube;
           }));
     }
     return tubesW;
+  }
+
+  Future<void> _displayDialog(BuildContext context, String message) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(message),
+          );
+        });
   }
 }

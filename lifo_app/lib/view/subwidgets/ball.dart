@@ -3,26 +3,25 @@ import 'package:flutter/material.dart';
 class Ball extends StatefulWidget {
   Ball({super.key, required this.amount,
   required this.initialColor, required this.onChanged});
-
   final int amount;
   final int initialColor;
   late BallState currentState;
   final Function onChanged;
   @override
-  State<Ball> createState() {
-    currentState =  BallState(amount-1, initialColor);
-    return currentState;
-  }
+  State<Ball> createState() => BallState();
+
 }
 
 class BallState extends State<Ball> {
-  late int index;
-  late int maxIndex ;
-  BallState(int _maxIndex, int initialColor) {
-    maxIndex = _maxIndex;
-    index = initialColor;
-  }
 
+  late int currentColorIndex ;
+  late int maxIndex ;
+  @override
+  void initState() {
+    currentColorIndex = widget.initialColor - 1;
+    maxIndex = widget.amount-1;
+    super.initState();
+  }
   List<Color> colorsList = [
     Colors.green.shade300,
     Colors.greenAccent.shade200,
@@ -44,19 +43,19 @@ class BallState extends State<Ball> {
     Colors.white,
   ];
 
-  Color getColor (int _index){
-    return colorsList[_index];
+  Color getColor (){
+    return colorsList[currentColorIndex];
   }
 
   void cycleColor(){
-      int _index = index + 1;
-      if(_index > maxIndex){
-        _index = 0;
+    currentColorIndex = currentColorIndex + 1;
+      if(currentColorIndex > maxIndex) {
+        currentColorIndex = 0;
       }
       setState(() {
-        index = _index;
+        currentColorIndex = currentColorIndex;
       });
-      int color = index + 1;
+      int color = currentColorIndex + 1;
       widget.onChanged(color);
   }
 
@@ -66,7 +65,7 @@ class BallState extends State<Ball> {
     return Container(
         padding: const EdgeInsets.all(5),
         child: Material(
-          color: getColor(index),
+          color: getColor(),
           shape: const CircleBorder(),
           child: InkWell(
             onTap: () {
