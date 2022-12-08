@@ -99,9 +99,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: InkWell(
                   onTap: () {
                     if(_itemsPerTube > 7) {
+                      _displayDialog(context, 'Item per tube must be less than 8');
                       return;
                     }
                     if(_amountOfColors > 15) {
+                      _displayDialog(context, 'Amount of colors must be less than 16');
+                      return;
+                    }
+                    if(_extraTubes > 3) {
+                      _displayDialog(context, 'Extra tubes must be less than 4');
+                      return;
+                    }
+                    if(_extraTubes < 2 ) {
+                      _displayDialog(context, 'Extra tubes must be grater than 1');
                       return;
                     }
                     maxColors = _amountOfColors;
@@ -136,4 +146,13 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  Future<void> _displayDialog(BuildContext context, String message) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(message),
+          );
+        });
+  }
 }

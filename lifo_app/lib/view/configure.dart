@@ -63,13 +63,14 @@ class _ConfigurePageState extends State<ConfigurePage> {
                 borderRadius: BorderRadius.circular(50),
                 child: InkWell(
                   onTap: () {
+
                   },
                   borderRadius: BorderRadius.circular(50),
                   child: Container(
                     width: 200,
                     height: 50,
                     alignment: Alignment.center,
-                    child: const Text('Next',
+                    child: const Text('Validate',
                         style: TextStyle(fontWeight: FontWeight.bold,
                             fontSize: 20,
                             color: Colors.white
