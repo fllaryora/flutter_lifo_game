@@ -22,23 +22,23 @@ void main() {
      maxColors = 15;
 
      scenarioToExperiment = Scenario.fromColors([
-       [CELESTE, VERDE_CLARO, VIOLETA, VERDE_CLARO],
-       [CELESTE,VERDE, VERDE, VERDE_CLARO],
-       [VERDE_OSCURO,VIOLETA, AZUL, GRIS],
-       [CELESTE_FUCCIA,NARANJA, ROJO, CELESTE],
-       [NEGRO, LILA, BLANCO, AZUL],
-       [ROJO,AZUL, NARANJA, AMARILLO],
+       [CELESTE, PIEL, GRIS, CELESTE_FUCCIA],
+       [NARANJA, CELESTE_FUCCIA, BLANCO, VERDE],
+       [CELESTE, PIEL, GRIS, VIOLETA],
+       [AMARILLO, VERDE, VERDE_CLARO, CELESTE_FUCCIA],
+       [CELESTE_FUCCIA, ROJO, VERDE_OSCURO, VERDE_CLARO],
+       [VERDE_OSCURO, AMARILLO, NARANJA, CELESTE],
 
-       [LILA, BLANCO, CELESTE_FUCCIA, NARANJA],
-       [NARANJA,PIEL, VIOLETA, NEGRO],
-       [NEGRO,AZUL, BLANCO, VERDE_OSCURO],
-       [VERDE_OSCURO, AMARILLO, AMARILLO, VIOLETA],
-       [CELESTE, PIEL, LILA, CELESTE_FUCCIA],
-       [GRIS,LILA, VERDE, AMARILLO],
+       [LILA, VERDE_CLARO, VERDE, PIEL],
+       [AMARILLO, VERDE_OSCURO, NEGRO, NEGRO],
+       [AZUL, VERDE_CLARO, VERDE_OSCURO, VIOLETA],
+       [NARANJA, BLANCO, VIOLETA, AZUL],
+       [AZUL, LILA, NEGRO, NEGRO],
+       [VERDE, GRIS, AMARILLO, PIEL],
 
-       [VERDE_CLARO, GRIS, CELESTE_FUCCIA, GRIS],
-       [NEGRO, VERDE_OSCURO, PIEL, ROJO],
-       [ROJO, BLANCO, VERDE, PIEL],
+       [ROJO, LILA, AZUL, ROJO],
+       [ROJO, NARANJA, CELESTE, BLANCO],
+       [GRIS, VIOLETA, LILA, BLANCO],
        [],//extra tubes
        []
      ]);
@@ -57,8 +57,14 @@ void main() {
       expect(solution!.isEmpty, false);
       int movesAprox = scenarioToExperiment.getHeuristic();
       print(solution.first.content);
-      for(Scenario scenario in solution){
-        print(scenario.getMove());
+      for(Scenario scenario in solution) {
+        List <int > move = scenario.getMove();
+        int tubeIndex = move[1];
+        Tube tubeDest = scenario.content[tubeIndex];
+        int color = tubeDest.topColor!;
+        List<Balls> bolas = Balls.values;
+        Balls bola = bolas[color];
+        print(bola.name + move.toString() );
       }
       expect(solution.length >  movesAprox, true );
 

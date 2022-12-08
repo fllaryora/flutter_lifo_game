@@ -116,44 +116,6 @@ void main() {
       expect(tubeToExperiment.areAllBallsTheSameColour, false);
     });
 
-    test('the recolored version should be equals to BLUE version in all stages', () {
-
-      Tube tube2 = Tube();
-
-      Tube recolored = tubeToExperiment.reColorTubeForHeuristic();
-      expect(recolored == tube2, true);
-
-      tubeToExperiment.push(YELLOW);
-      tube2.push(BLUE);
-
-      recolored = tubeToExperiment.reColorTubeForHeuristic();
-      expect(recolored == tube2, true);
-
-      tubeToExperiment.push(YELLOW);
-      tube2.push(BLUE);
-
-      recolored = tubeToExperiment.reColorTubeForHeuristic();
-      print(tube2);
-      print(recolored);
-      expect(recolored == tube2, true);
-
-      tubeToExperiment.push(YELLOW);
-      tube2.push(BLUE);
-
-      recolored = tubeToExperiment.reColorTubeForHeuristic();
-      print(tube2);
-      print(recolored);
-      expect(recolored == tube2, true);
-
-      tubeToExperiment.push(YELLOW);
-      tube2.push(BLUE);
-
-      recolored = tubeToExperiment.reColorTubeForHeuristic();
-      print(tube2);
-      print(recolored);
-      expect(recolored == tube2, true);
-    });
-
     test('Can human push in empty tube', () {
       expect(tubeToExperiment.humanPush(BLUE), true);
     });
