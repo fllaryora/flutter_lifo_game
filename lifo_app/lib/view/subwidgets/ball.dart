@@ -55,8 +55,7 @@ class BallState extends State<Ball> {
       setState(() {
         currentColorIndex = currentColorIndex;
       });
-      int color = currentColorIndex + 1;
-      widget.onChanged(color);
+      widget.onChanged(currentColorIndex);
   }
 
   @override

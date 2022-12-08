@@ -21,14 +21,19 @@ class _ConfigurePageState extends State<ConfigurePage> {
   late List<List<int>> tubes;
   @override
   void initState() {
-    tubes = List.filled(widget.amountOfColors + widget.extraTubesToUse, <int>[]);
+    tubes = <List<int>>[];
     for(int tubeIndex = 0; tubeIndex < widget.amountOfColors; tubeIndex++) {
+      List<int> temporal = <int>[];
       for(int ballIndex = 0; ballIndex < widget.itemsPerTube; ballIndex++) {
-        int indexColor = Random().nextInt(widget.amountOfColors - 1) ;
-        List<int> thisTube = tubes[tubeIndex];
-        thisTube.add(indexColor);
+        int indexColor = Random().nextInt(widget.amountOfColors - 1);
+        temporal.add(indexColor);
       }
+      tubes.add(temporal);
     }
+    for(int tubeIndex = 0; tubeIndex < widget.extraTubesToUse; tubeIndex++) {
+      tubes.add(<int>[]);
+    }
+
     super.initState();
   }
 
@@ -71,7 +76,6 @@ class _ConfigurePageState extends State<ConfigurePage> {
                 borderRadius: BorderRadius.circular(50),
                 child: InkWell(
                   onTap: () {
-
                     Scenario scenarioToExperiment = Scenario.fromColors(
                         tubes
                     );
@@ -107,10 +111,7 @@ class _ConfigurePageState extends State<ConfigurePage> {
     List<Widget> tubesW = <Widget>[];
     for(int tubeIndex = 0; tubeIndex < widget.amountOfColors; tubeIndex++) {
       tubesW.add (TubeComponent(amountOfColors: widget.amountOfColors,
-          itemsPerTube: widget.itemsPerTube, initialTube: tubes[tubeIndex],
-          onChanged: (List<int> tube) {
-            tubes[tubeIndex] = tube;
-          }));
+          itemsPerTube: widget.itemsPerTube, initialTube: tubes[tubeIndex]));
     }
     return tubesW;
   }

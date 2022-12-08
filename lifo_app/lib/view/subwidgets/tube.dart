@@ -5,12 +5,10 @@ import 'package:lifo_app/view/subwidgets/ball.dart';
 
 class TubeComponent extends StatefulWidget {
   TubeComponent({super.key, required this.amountOfColors,
-  required this.itemsPerTube, required this.initialTube,
-  required this.onChanged});
+  required this.itemsPerTube, required this.initialTube});
   final int amountOfColors;
   final int itemsPerTube;
   final List<int> initialTube;
-  final Function onChanged;
   late TubeState currentState;
   @override
   State<TubeComponent> createState() {
@@ -53,9 +51,8 @@ class TubeState extends State<TubeComponent> {
     for(int ballIndex = 0; ballIndex < itemsPerTube; ballIndex++) {
       ballsW.add (Ball( amount: amountOfColors,
           initialColorIndex: widget.initialTube[ballIndex],
-          onChanged: (int newColor) {
-            widget.initialTube[ballIndex] = newColor;
-            widget.onChanged(widget.initialTube);
+          onChanged: (int newIndexColor) {
+            widget.initialTube[ballIndex] = newIndexColor;
           }));
     }
     return ballsW;
