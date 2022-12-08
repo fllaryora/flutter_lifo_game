@@ -1,9 +1,6 @@
 import 'dart:math';
 
 int maxSpaces = 0;
-
-Map<Tube,int> heuristicCache =  <Tube, int>{};
-Map<Tube,Tube> recoloredCache =  <Tube, Tube>{};
 /* en el tubo el fist es la base del tubo*/
 /* en el tubo el last es la boca del tubo*/
 
@@ -95,51 +92,6 @@ class Tube  {
     return true;
   }
 
-  Tube reColorTubeForHeuristic() {
-    Tube original = this;
-    if(original.isEmpty) {
-      return original;
-    }
-
-    if(recoloredCache.containsKey(original)) {
-      return recoloredCache[original]!;
-    }
-    Tube perfect = Tube();
-    int newColor = 1;
-    Map<int,int> recolor =  <int, int>{};
-    for(int slot = 0; slot < original.content.length; slot++) {
-      int oldColor = original.content[slot];
-      if(!recolor.containsKey(oldColor)) {
-        recolor[oldColor] = newColor;
-        newColor++;
-      }
-      perfect.push(recolor[oldColor]!);
-    }
-    recoloredCache.putIfAbsent(original, () => perfect);
-    return perfect;
-  }
-
-  int getHeuristicMem() {
-    Tube recolored = reColorTubeForHeuristic();
-    if(heuristicCache.containsKey(recolored)) {
-      return heuristicCache[recolored]!;
-    }
-    if(isEmpty) {
-      heuristicCache.putIfAbsent(recolored, () => 0);
-      return 0;
-    }
-    if(areAllBallsTheSameColour) {
-      int heuristic = min(maxSpaces - length, length);
-      heuristicCache.putIfAbsent(recolored, () => heuristic);
-      return heuristic;
-    } else {
-      int ball = pop()!;
-      int heuristic = getHeuristic() + 1;
-      push(ball);
-      heuristicCache.putIfAbsent(recolored, () => heuristic);
-      return heuristic;
-    }
-  }
 
   //forma no recursiva
   int getHeuristic() {
