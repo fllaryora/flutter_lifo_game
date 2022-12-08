@@ -3,8 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:lifo_app/data/model/Tube.dart';
 import 'package:lifo_app/data/model/scenario.dart';
 import 'package:lifo_app/view/subwidgets/ball.dart';
-import 'package:lifo_app/view/subwidgets/consigna_text.dart';
-import 'package:lifo_app/view/subwidgets/numeral_text_field.dart';
+import 'package:lifo_app/view/subwidgets/tube.dart';
 
 class ConfigurePage extends StatefulWidget {
   const ConfigurePage({super.key, required this.title,
@@ -15,17 +14,20 @@ class ConfigurePage extends StatefulWidget {
   final int amountOfColors;
   final int extraTubesToUse;
   @override
-  State<ConfigurePage> createState() => _ConfigurePageState();
+  State<ConfigurePage> createState() => _ConfigurePageState(amountOfColors);
 }
 
 class _ConfigurePageState extends State<ConfigurePage> {
+
+  late List<List<int>> tubes;
+  _ConfigurePageState(int amountOfColors){
+    tubes = List.filled(amountOfColors, <int>[]);
+  }
 
   @override
   Widget build(BuildContext context) {
     print("amountOfColors: " + widget.amountOfColors.toString());
 
-    List<Tube> tubes =
-      List.filled(widget.amountOfColors + widget.extraTubesToUse, Tube());
     return Scaffold(
       backgroundColor: const Color(0xfffffaeb),
       appBar: AppBar(title: Text(widget.title),),
@@ -50,33 +52,10 @@ class _ConfigurePageState extends State<ConfigurePage> {
               ),
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 20.0),
-                height: 210.0, //210 son 4 tubos
+                height: (widget.itemsPerTube * 58 - (widget.itemsPerTube-1) * 3), //210 son 4 tubos
                 child: ListView(
                   scrollDirection: Axis.horizontal,
-                  children: <Widget>[
-                    //your widget items here
-                    //El tubo es esto
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20,right: 20),
-                      child: Card(
-                        shape: const RoundedRectangleBorder(
-                          side: BorderSide(
-                            color: Colors.blueAccent,
-                          ),
-                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20.0),
-                              bottomRight: Radius.circular(20.0)),
-                        ),
-                        child: Column(
-                          children: [
-                            //Ball( amount: widget.amountOfColors,),
-                            //Ball( amount: widget.amountOfColors,),
-                            //Ball( amount: widget.amountOfColors,),
-                            Ball( amount: widget.amountOfColors,),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
+                  children: getTubes(),
                 ),
               ),
               Material(
@@ -102,5 +81,16 @@ class _ConfigurePageState extends State<ConfigurePage> {
             ],
           ),
     );
+  }
+  List<Widget> getTubes() {
+    List<Widget> tubesW = <Widget>[];
+    for(int tubeIndex = 0; tubeIndex < widget.amountOfColors; tubeIndex++) {
+      tubesW.add (TubeComponent(amountOfColors: widget.amountOfColors,
+          itemsPerTube: widget.itemsPerTube,
+          onChanged: (List<int> tube) {
+            tubes[tubeIndex] = tube;
+          }));
+    }
+    return tubesW;
   }
 }

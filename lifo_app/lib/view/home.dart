@@ -53,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 label: 'Items per tube ',
                 hint: 'How many balls it has?',
                 controller: itemController,
-                onChanged: (text) {
+                onChanged: (String text) {
                   int? possibleNull = int.tryParse(text);
                   if(possibleNull != null){
                     setState(() {
@@ -67,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 label: 'Colors',
                 hint: 'Amount of colors...',
                 controller: colorsController,
-                onChanged: (text) {
+                onChanged: (String text) {
                   int? possibleNull = int.tryParse(text);
                   if(possibleNull != null){
                     setState(() {
@@ -81,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 label: 'Colors',
                 hint: 'Amount of colors...',
                 controller: extrasController,
-                onChanged: (text) {
+                onChanged: (String text) {
                   int? possibleNull = int.tryParse(text);
                   if(possibleNull != null){
                     setState(() {
@@ -98,6 +98,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 borderRadius: BorderRadius.circular(50),
                 child: InkWell(
                   onTap: () {
+                    if(_itemsPerTube > 7) {
+                      return;
+                    }
+                    if(_amountOfColors > 15) {
+                      return;
+                    }
                     maxColors = _amountOfColors;
                     maxSpaces = _itemsPerTube;
                     extraTubes = _extraTubes;

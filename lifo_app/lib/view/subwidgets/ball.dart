@@ -1,32 +1,26 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 
 class Ball extends StatefulWidget {
-  Ball({super.key, required this.amount});
+  Ball({super.key, required this.amount,
+  required this.initialColor, required this.onChanged});
+
   final int amount;
+  final int initialColor;
   late BallState currentState;
+  final Function onChanged;
   @override
   State<Ball> createState() {
-    currentState =  BallState(amount-1);
+    currentState =  BallState(amount-1, initialColor);
     return currentState;
-  }
-
-  int getColor(){
-    return currentState.getIndex();
   }
 }
 
 class BallState extends State<Ball> {
   late int index;
   late int maxIndex ;
-  BallState(int _maxIndex) {
+  BallState(int _maxIndex, int initialColor) {
     maxIndex = _maxIndex;
-    index = Random().nextInt(maxIndex);
-    print("Index:" + index.toString());
-  }
-
-  int getIndex() {
-    return index + 1;
+    index = initialColor;
   }
 
   List<Color> colorsList = [
@@ -59,10 +53,11 @@ class BallState extends State<Ball> {
       if(_index > maxIndex){
         _index = 0;
       }
-      print("AAAAA index:" +index.toString());
       setState(() {
         index = _index;
       });
+      int color = index + 1;
+      widget.onChanged(color);
   }
 
   @override
