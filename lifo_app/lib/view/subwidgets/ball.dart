@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class Ball extends StatefulWidget {
@@ -23,24 +25,21 @@ class BallState extends State<Ball> {
     super.initState();
   }
   List<Color> colorsList = [
-    Colors.green.shade300,
-    Colors.greenAccent.shade200,
-    Colors.lightGreen.shade900,
-
-    Colors.pink.shade100,
-    Colors.red.shade300,
+    Colors.red.shade300,//1
     Colors.yellow.shade200,
-    Colors.deepOrangeAccent.shade200,
-
-    Colors.lightBlue.shade100,
     Colors.blue.shade300,
-    Colors.cyanAccent.shade200,
-    Colors.indigo.shade200,
+    Colors.green.shade300,
     Colors.purple.shade200,
-
-    Colors.grey.shade700,
-    Colors.black,
     Colors.white,
+    Colors.lightBlue.shade100,
+    Colors.indigo.shade200,
+    Colors.deepOrangeAccent.shade200,
+    Colors.cyanAccent.shade200,
+    Colors.greenAccent.shade200,
+    Colors.grey.shade700,
+    Colors.pink.shade100,
+    Colors.lightGreen.shade900,
+    Colors.black,//15
   ];
 
   Color getColor (){
@@ -60,9 +59,11 @@ class BallState extends State<Ball> {
 
   @override
   Widget build(BuildContext context) {
-
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    double ratio = min(width, height)*0.1;
     return Container(
-        padding: const EdgeInsets.all(5),
+        padding: EdgeInsets.all(ratio/8.0),
         child: Material(
           color: getColor(),
           shape: const CircleBorder(),
@@ -70,9 +71,9 @@ class BallState extends State<Ball> {
             onTap: () {
               cycleColor();
             },
-            child: const SizedBox(
-              width: 40,
-              height: 40,
+            child: SizedBox(
+              width: ratio,
+              height: ratio,
             ),
           ),
         ),

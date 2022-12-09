@@ -28,18 +28,22 @@ class TubeState extends State<TubeComponent> {
   }
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    double ratio = min(width, height)*0.05;
     return Padding (
-        padding: const EdgeInsets.only(left: 20,right: 20),
+        padding: EdgeInsets.only(left: ratio/2.0,right: ratio/2.0),
         child: Card(
           color: Colors.grey.shade100,
-          shape: const RoundedRectangleBorder(
-            side: BorderSide(
+          shape:  RoundedRectangleBorder(
+            side: const BorderSide(
               color: Colors.blueAccent,
             ),
-            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20.0),
-                bottomRight: Radius.circular(20.0)),
+            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(ratio),
+                bottomRight: Radius.circular(ratio)),
           ),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: getBalls(),
           ),
         ),

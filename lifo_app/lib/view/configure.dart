@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lifo_app/data/model/scenario.dart';
+import 'package:lifo_app/domain/a_star.dart';
 import 'package:lifo_app/view/subwidgets/tube.dart';
 
 class ConfigurePage extends StatefulWidget {
@@ -19,6 +20,7 @@ class ConfigurePage extends StatefulWidget {
 class _ConfigurePageState extends State<ConfigurePage> {
 
   late List<List<int>> tubes;
+  List<Scenario>? solution;
   @override
   void initState() {
     tubes = <List<int>>[];
@@ -41,6 +43,13 @@ class _ConfigurePageState extends State<ConfigurePage> {
   Widget build(BuildContext context) {
     print("amountOfColors: " + widget.amountOfColors.toString());
 
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    double ratio = min(width, height)*0.05;
+    // double ratio = min(width, height)*0.1;
+    double tubeHeight = widget.itemsPerTube * ratio * 2.5  + widget.itemsPerTube * (ratio/5);
+
+    //(widget.itemsPerTube * 58 - (widget.itemsPerTube-1) * 3)
     return Scaffold(
       backgroundColor: const Color(0xfffffaeb),
       appBar: AppBar(title: Text(widget.title),),
@@ -50,10 +59,10 @@ class _ConfigurePageState extends State<ConfigurePage> {
             //start == leading / left
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const Padding(
-                padding: EdgeInsets.only(top: 10, bottom: 10.0,
-                    left: 20.0, right: 20.0),
-                child: Text(
+              Padding(
+                padding: EdgeInsets.only(top: ratio/4.0, bottom: ratio/4.0,
+                    left: ratio/2.0, right: ratio/2.0),
+                child: const Text(
                   'Configure',
                     textAlign: TextAlign.center,
                     style: TextStyle(fontWeight: FontWeight.normal,
@@ -64,16 +73,22 @@ class _ConfigurePageState extends State<ConfigurePage> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.symmetric(vertical: 20.0),
-                height: (widget.itemsPerTube * 58 - (widget.itemsPerTube-1) * 3), //210 son 4 tubos
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: getTubes(),
+                margin: EdgeInsets.symmetric(vertical: ratio/2.0),
+                height: tubeHeight,
+                child: Center(
+                  child: ListView(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    children: getTubes(),
+                  ),
                 ),
+              ),
+              SizedBox(
+                height: ratio,
               ),
               Material(
                 color: Colors.blueGrey.shade300,
-                borderRadius: BorderRadius.circular(50),
+                borderRadius: BorderRadius.circular(ratio*2.5),
                 child: InkWell(
                   onTap: () {
                     Scenario scenarioToExperiment = Scenario.fromColors(
@@ -86,13 +101,14 @@ class _ConfigurePageState extends State<ConfigurePage> {
                       return;
                     } else {
                       _displayDialog(context, 'VALID');
+                      solver(scenarioToExperiment);
                     }
 
                   },
-                  borderRadius: BorderRadius.circular(50),
+                  borderRadius: BorderRadius.circular(ratio*2.5),
                   child: Container(
-                    width: 200,
-                    height: 50,
+                    width: ratio*2.5*4.0,
+                    height: ratio*2.5,
                     alignment: Alignment.center,
                     child: const Text('Validate',
                         style: TextStyle(fontWeight: FontWeight.bold,
@@ -107,6 +123,7 @@ class _ConfigurePageState extends State<ConfigurePage> {
           ),
     );
   }
+
   List<Widget> getTubes() {
     List<Widget> tubesW = <Widget>[];
     for(int tubeIndex = 0; tubeIndex < widget.amountOfColors; tubeIndex++) {
@@ -125,4 +142,16 @@ class _ConfigurePageState extends State<ConfigurePage> {
           );
         });
   }
+
+  Future<void> solver(Scenario scenarioToExperiment) async {
+    AStarSearch aStart = AStarSearch(scenarioToExperiment);
+    solution = aStart.solve();
+    if(solution != null) {
+      _displayDialog(context, 'The SOLUTION was found');
+    } else {
+      _displayDialog(context, 'No SOLUTION was found');
+    }
+    return;
+  }
+
 }
