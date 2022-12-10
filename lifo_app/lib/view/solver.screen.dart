@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lifo_app/data/model/scenario.dart';
+import 'package:lifo_app/view/subwidgets/tube.solve.dart';
 
 class SolverPage extends StatefulWidget {
   const SolverPage({super.key, required this.title,
@@ -31,7 +32,15 @@ class _SolverPageState extends State<SolverPage> {
     double stackHeight = height * 0.55;
     double ratio = min(width, height)*0.1;
     double gap = ratio/4.0;
-    double arriba = 0.0;
+
+    int itemperTube = 4;
+    double tubeWidth = ratio;
+    double tubeHeight = ratio * itemperTube + ratio * 0.6;
+
+    //asuminedo un solo tubo el central seria
+    //Central
+    double tubeLeft = (width/2.0) - (tubeWidth/2.0);
+    double tubeTop = (stackHeight/2.0) - (tubeHeight/2.0);
     return Scaffold(
       backgroundColor: const Color(0xfffffaeb),
       appBar: AppBar(title: Text(widget.title),),
@@ -55,32 +64,18 @@ class _SolverPageState extends State<SolverPage> {
                 ),
               ),
               Container(
-                //color: Colors.red,
+                color: Colors.deepOrangeAccent,
                 child: SizedBox(
                   width: width,
                   height: stackHeight,
                   child: Stack(
                     clipBehavior: Clip.antiAliasWithSaveLayer,
-                    children: <Widget>[
-
-                      Positioned(
-                        left: gap,
-                        top: gap ,
-                        child: Card(
-                          color: Colors.grey.shade100,
-                          shape:  RoundedRectangleBorder(
-                            side: const BorderSide(
-                              color: Colors.blueAccent,
-                            ),
-                            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(ratio),
-                                bottomRight: Radius.circular(ratio)),
-                          ),
-                          child: SizedBox(
-                            width: ratio,
-                            height: ratio * 4 + ratio * 0.6,
-                            ),
-                        ),
-                      ),
+                    children: getTubes(stackHeight, width, ratio, tubeWidth,
+                        tubeHeight, 6),
+                    /*<Widget>[
+                      TubeSolver(left: tubeLeft,top: tubeTop,
+                          ratio: ratio, tubeWidth: tubeWidth,
+                          tubeHeight: tubeHeight),
 
                       AnimatedPositioned(
                         width: ratio,
@@ -102,7 +97,7 @@ class _SolverPageState extends State<SolverPage> {
                           ),
                         ),
                       ),
-                    ],
+                    ],*/
                   ),
                 ),
               )
@@ -111,4 +106,22 @@ class _SolverPageState extends State<SolverPage> {
     );
   }
 
+  List<Widget> getTubes(
+      double stackHeight, double stackWidth,double ratio,
+      double tubeWidth, double tubeHeight, int columns) {
+    List<Widget> tubes = <Widget>[];
+
+    for(int indexColumn = 1; indexColumn < (columns+1) ;indexColumn++) {
+      double factor = indexColumn.toDouble() / (columns+1).toDouble();
+      double tubeLeft = (stackWidth * factor) - (tubeWidth /2.0);
+      double tubeTop = (stackHeight/2.0) - (tubeHeight/2.0);
+      tubes.add(
+        TubeSolver(left: tubeLeft,top: tubeTop,
+            ratio: ratio, tubeWidth: tubeWidth,
+            tubeHeight: tubeHeight),
+      );
+    }
+
+    return tubes;
+  }
 }
