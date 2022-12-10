@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lifo_app/data/model/scenario.dart';
 import 'package:lifo_app/domain/a_star.dart';
+import 'package:lifo_app/view/solver.screen.dart';
 import 'package:lifo_app/view/subwidgets/tube.dart';
 
 class ConfigurePage extends StatefulWidget {
@@ -101,7 +102,10 @@ class _ConfigurePageState extends State<ConfigurePage> {
                       return;
                     } else {
                       _displayDialog(context, 'VALID');
-                      solver(scenarioToExperiment);
+                      if(mounted) {
+                        solver(scenarioToExperiment);
+                      }
+
                     }
 
                   },
@@ -146,8 +150,17 @@ class _ConfigurePageState extends State<ConfigurePage> {
   Future<void> solver(Scenario scenarioToExperiment) async {
     AStarSearch aStart = AStarSearch(scenarioToExperiment);
     solution = aStart.solve();
+    if(!mounted) {
+      return;
+    }
     if(solution != null) {
-      _displayDialog(context, 'The SOLUTION was found');
+      //_displayDialog(context, 'The SOLUTION was found');
+      Navigator.push(
+        context,
+        MaterialPageRoute( builder: (context) =>
+            SolverPage(title: widget.title, solution: solution!)
+        )
+      );
     } else {
       _displayDialog(context, 'No SOLUTION was found');
     }
