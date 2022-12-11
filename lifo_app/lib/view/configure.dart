@@ -54,77 +54,79 @@ class _ConfigurePageState extends State<ConfigurePage> {
     return Scaffold(
       backgroundColor: const Color(0xfffffaeb),
       appBar: AppBar(title: Text(widget.title),),
-      body: Column(
-            //start == top
-            mainAxisAlignment: MainAxisAlignment.start,
-            //start == leading / left
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top: ratio/4.0, bottom: ratio/4.0,
-                    left: ratio/2.0, right: ratio/2.0),
-                child: const Text(
-                  'Configure',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.normal,
-                        fontSize: 55,
-                        fontFamily: 'Misteryzero',
-                      color: Color(0xff9d916b)
-                    )
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: ratio/2.0),
-                height: tubeHeight,
-                child: Center(
-                  child: ListView(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    children: getTubes(),
+      body: SingleChildScrollView(
+        child: Column(
+              //start == top
+              mainAxisAlignment: MainAxisAlignment.start,
+              //start == leading / left
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(top: ratio/4.0, bottom: ratio/4.0,
+                      left: ratio/2.0, right: ratio/2.0),
+                  child: const Text(
+                    'Configure',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontWeight: FontWeight.normal,
+                          fontSize: 55,
+                          fontFamily: 'Misteryzero',
+                        color: Color(0xff9d916b)
+                      )
                   ),
                 ),
-              ),
-              SizedBox(
-                height: ratio,
-              ),
-              Material(
-                color: Colors.blueGrey.shade300,
-                borderRadius: BorderRadius.circular(ratio*2.5),
-                child: InkWell(
-                  onTap: () {
-                    Scenario scenarioToExperiment = Scenario.fromColors(
-                        tubes
-                    );
-
-                    print(scenarioToExperiment);
-                    if(! scenarioToExperiment.isValid ) {
-                      _displayDialog(context, 'The scenario is not valid');
-                      return;
-                    } else {
-                      _displayDialog(context, 'VALID');
-                      if(mounted) {
-                        solver(scenarioToExperiment);
-                      }
-
-                    }
-
-                  },
-                  borderRadius: BorderRadius.circular(ratio*2.5),
-                  child: Container(
-                    width: ratio*2.5*4.0,
-                    height: ratio*2.5,
-                    alignment: Alignment.center,
-                    child: const Text('Validate',
-                        style: TextStyle(fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.white
-                        )
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: ratio/2.0),
+                  height: tubeHeight,
+                  child: Center(
+                    child: ListView(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      children: getTubes(),
                     ),
                   ),
                 ),
-              )
-            ],
-          ),
+                SizedBox(
+                  height: ratio,
+                ),
+                Material(
+                  color: Colors.blueGrey.shade300,
+                  borderRadius: BorderRadius.circular(ratio*2.5),
+                  child: InkWell(
+                    onTap: () {
+                      Scenario scenarioToExperiment = Scenario.fromColors(
+                          tubes
+                      );
+
+                      print(scenarioToExperiment);
+                      if(! scenarioToExperiment.isValid ) {
+                        _displayDialog(context, 'The scenario is not valid');
+                        return;
+                      } else {
+                        _displayDialog(context, 'VALID');
+                        if(mounted) {
+                          solver(scenarioToExperiment);
+                        }
+
+                      }
+
+                    },
+                    borderRadius: BorderRadius.circular(ratio*2.5),
+                    child: Container(
+                      width: ratio*2.5*4.0,
+                      height: ratio*2.5,
+                      alignment: Alignment.center,
+                      child: const Text('Validate',
+                          style: TextStyle(fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.white
+                          )
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+      ),
     );
   }
 

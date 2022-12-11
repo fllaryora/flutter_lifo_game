@@ -26,18 +26,25 @@ class _SolverPageState extends State<SolverPage> {
   bool selected = false;
   @override
   Widget build(BuildContext context) {
-    int tubeAmount = 15;
+    int tubeAmount = 18;
     int itemPerTube = 4;
 
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     //Depende de la cantidad de pelotas
     double ratio = min(width, height)*0.1; //tamanyo de las pelotas
-
     double stackWidth = width;
-    double stackHeight = height * 0.55;
-    double tubeWidth = ratio;
-    double tubeHeight = ratio * itemPerTube + ratio * 0.6;
+    double stackHeight = height * 0.67;
+
+    double tubeRatio = ratio;
+    if(tubeAmount > 8){
+      tubeRatio = ratio * 0.9;
+    }
+    if(tubeAmount > 16){
+      tubeRatio = ratio * 0.65;
+    }
+    double tubeWidth = tubeRatio;
+    double tubeHeight = tubeRatio * itemPerTube;
 
     return Scaffold(
       backgroundColor: const Color(0xfffffaeb),
@@ -49,7 +56,7 @@ class _SolverPageState extends State<SolverPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(top: ratio/4.0, bottom: ratio/4.0,
+                padding: EdgeInsets.only(top: ratio/4.0,
                     left: ratio/2.0, right: ratio/2.0),
                 child: const Text(
                   'Solution',
@@ -95,6 +102,29 @@ class _SolverPageState extends State<SolverPage> {
                         ),
                       ),
                     ],*/
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: ratio/4,
+              ),
+              Material(
+                color: Colors.blueGrey.shade300,
+                borderRadius: BorderRadius.circular(ratio*2.5),
+                child: InkWell(
+                  onTap: () {
+                  },
+                  borderRadius: BorderRadius.circular(ratio*2.5),
+                  child: Container(
+                    width: ratio * 4.0,
+                    height: ratio,
+                    alignment: Alignment.center,
+                    child: const Text('Validate',
+                        style: TextStyle(fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: Colors.white
+                        )
+                    ),
                   ),
                 ),
               )
