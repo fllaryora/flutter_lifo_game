@@ -26,21 +26,19 @@ class _SolverPageState extends State<SolverPage> {
   bool selected = false;
   @override
   Widget build(BuildContext context) {
+    int tubeAmount = 8;
+    int itemPerTube = 4;
 
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    //Depende de la cantidad de pelotas
+    double ratio = min(width, height)*0.1; //tamanyo de las pelotas
+
+    double stackWidth = width;
     double stackHeight = height * 0.55;
-    double ratio = min(width, height)*0.1;
-    double gap = ratio/4.0;
-
-    int itemperTube = 4;
     double tubeWidth = ratio;
-    double tubeHeight = ratio * itemperTube + ratio * 0.6;
+    double tubeHeight = ratio * itemPerTube + ratio * 0.6;
 
-    //asuminedo un solo tubo el central seria
-    //Central
-    double tubeLeft = (width/2.0) - (tubeWidth/2.0);
-    double tubeTop = (stackHeight/2.0) - (tubeHeight/2.0);
     return Scaffold(
       backgroundColor: const Color(0xfffffaeb),
       appBar: AppBar(title: Text(widget.title),),
@@ -69,9 +67,8 @@ class _SolverPageState extends State<SolverPage> {
                   width: width,
                   height: stackHeight,
                   child: Stack(
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    children: getTubes(stackHeight, width, ratio, tubeWidth,
-                        tubeHeight, 6),
+                    children: drawTubes(stackHeight, stackWidth,
+                        ratio, tubeWidth, tubeHeight, tubeAmount),
                     /*<Widget>[
                       TubeSolver(left: tubeLeft,top: tubeTop,
                           ratio: ratio, tubeWidth: tubeWidth,
@@ -106,22 +103,35 @@ class _SolverPageState extends State<SolverPage> {
     );
   }
 
-  List<Widget> getTubes(
+  List<Widget> drawTubes(
       double stackHeight, double stackWidth,double ratio,
-      double tubeWidth, double tubeHeight, int columns) {
+      double tubeWidth, double tubeHeight, int amount) {
+
+    int internalTubes = amount;
+    bool extraRow = (internalTubes % 8) > 0;
     List<Widget> tubes = <Widget>[];
-
-    for(int indexColumn = 1; indexColumn < (columns+1) ;indexColumn++) {
-      double factor = indexColumn.toDouble() / (columns+1).toDouble();
-      double tubeLeft = (stackWidth * factor) - (tubeWidth /2.0);
-      double tubeTop = (stackHeight/2.0) - (tubeHeight/2.0);
-      tubes.add(
-        TubeSolver(left: tubeLeft,top: tubeTop,
-            ratio: ratio, tubeWidth: tubeWidth,
-            tubeHeight: tubeHeight),
-      );
+    //integer division
+    int rows = internalTubes ~/8;
+    if(extraRow){
+      rows = rows + 1;
     }
-
+    for(int indexRow = 1; indexRow < (rows+1) ;indexRow++) {
+      double tubeTop = (stackHeight/2.0) - (tubeHeight/2.0);
+      int columns = internalTubes;
+      internalTubes = internalTubes - 8;
+      if(internalTubes > 0) {
+        columns = 8;
+      }
+      for(int indexColumn = 1; indexColumn < (columns+1) ;indexColumn++) {
+        double factor = indexColumn.toDouble() / (columns+1).toDouble();
+        double tubeLeft = (stackWidth * factor) - (tubeWidth /2.0);
+        tubes.add(
+          TubeSolver(left: tubeLeft,top: tubeTop,
+              ratio: ratio, tubeWidth: tubeWidth,
+              tubeHeight: tubeHeight),
+        );
+      }
+    }
     return tubes;
   }
 }
