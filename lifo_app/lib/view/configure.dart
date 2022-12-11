@@ -74,6 +74,20 @@ class _ConfigurePageState extends State<ConfigurePage> {
                       )
                   ),
                 ),
+                SizedBox(
+                  height: ratio,
+                ),
+                const Text(
+                    'Tap the balls inside the tubes to configure the game.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.normal,
+                        fontSize: 25,
+                        color: Color(0xff9d916b)
+                    )
+                ),
+                SizedBox(
+                  height: ratio,
+                ),
                 Container(
                   margin: EdgeInsets.symmetric(vertical: ratio/2.0),
                   height: tubeHeight,
@@ -102,7 +116,7 @@ class _ConfigurePageState extends State<ConfigurePage> {
                         _displayDialog(context, 'The scenario is not valid');
                         return;
                       } else {
-                        _displayDialog(context, 'VALID');
+                        //_displayDialog(context, 'VALID');
                         if(mounted) {
                           solver(scenarioToExperiment);
                         }
@@ -123,7 +137,10 @@ class _ConfigurePageState extends State<ConfigurePage> {
                       ),
                     ),
                   ),
-                )
+                ),
+                SizedBox(
+                  height: ratio,
+                ),
               ],
             ),
       ),
