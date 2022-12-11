@@ -87,6 +87,7 @@ class Scenario {
     for(Tube tube in content) {
       allValids = allValids & (tube.areAllBallsTheSameColour);
     }
+
     return allValids;
   }
 

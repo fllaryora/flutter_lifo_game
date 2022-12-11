@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:lifo_app/data/model/Tube.dart';
+import 'package:lifo_app/data/model/balls.dart';
 import 'package:lifo_app/data/model/scenario.dart';
 import 'package:lifo_app/view/helpers/draw_balls.dart';
 import 'package:lifo_app/view/helpers/draw_tubes.dart';
@@ -20,6 +21,7 @@ class _SolverPageState extends State<SolverPage> {
 
   late int itemPerTube;
   late int currentScenario;
+  late Scenario thisScenaro;
   @override
   void initState() {
     itemPerTube = maxSpaces;
@@ -28,8 +30,12 @@ class _SolverPageState extends State<SolverPage> {
   }
 
   bool selected = false;
+  String moveDescription ="";
   @override
   Widget build(BuildContext context) {
+
+    thisScenaro = widget.solution[currentScenario];
+    createDescription();
 
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -59,13 +65,16 @@ class _SolverPageState extends State<SolverPage> {
                       )
                   ),
                 ),
-                const Text(
-                    'Move',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.normal,
-                        fontSize: 25,
-                        color: Color(0xff9d916b)
-                    )
+                Padding(
+                  padding: EdgeInsets.only(left: ratio/2.0, right: ratio/2.0),
+                  child: Text(
+                      moveDescription,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontWeight: FontWeight.normal,
+                          fontSize: 25,
+                          color: Color(0xff9d916b)
+                      )
+                  ),
                 ),
                 SizedBox(
                   height: ratio/4,
@@ -121,7 +130,7 @@ class _SolverPageState extends State<SolverPage> {
                       borderRadius: BorderRadius.circular(ratio*2.5),
                       child: InkWell(
                         onTap: () {
-                          if(currentScenario < (widget.solution.length - 1)){
+                          if(isNextScenario()){
                             setState(() {
                               currentScenario = currentScenario + 1;
                             });
@@ -152,6 +161,26 @@ class _SolverPageState extends State<SolverPage> {
     );
   }
 
+  void createDescription() {
+    if(thisScenaro.isFinish) {
+      moveDescription = "All the balls are sorted.";
+    } else {
+      if(isNextScenario()) {
+        Scenario nextScenaro = widget.solution[currentScenario+1];
+        List<int> nextMove = nextScenaro.getMove();
+        int tubeIndex = nextMove[1];
+        Tube tubeDest = nextScenaro.content[tubeIndex];
+        int color = tubeDest.topColor!;
+        List<Balls> bolas = Balls.values;
+        Balls bola = bolas[color + 1];
+        moveDescription = "Move the ${bola.name.toLowerCase()} ball from tube"
+            " ${(nextMove[0] + 1).toString()} to tube ${(nextMove[1] + 1).toString()}";
+      }
+    }
+  }
+
+  bool isNextScenario() => currentScenario < (widget.solution.length - 1);
+
   List<Widget> drawScenario(
       double stackHeight, double stackWidth, double ratio) {
 
@@ -164,7 +193,7 @@ class _SolverPageState extends State<SolverPage> {
 
     items.addAll(drawBalls(
          stackHeight,  stackWidth, tubeRatio,
-         tubeWidth, tubeHeight, widget.solution[currentScenario]));
+         tubeWidth, tubeHeight, thisScenaro));
     return items;
   }
 
