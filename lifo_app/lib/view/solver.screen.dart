@@ -28,12 +28,11 @@ class _SolverPageState extends State<SolverPage> {
   @override
   Widget build(BuildContext context) {
     int tubeAmount = 18;
-    int itemPerTube = 7;//4 normal//7 alto
+    int itemPerTube = 6;//4 normal//7 alto
 
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    //Depende de la cantidad de pelotas
-    double ratio = min(width, height) * 0.1; //tamanyo de las pelotas
+    double ratio = min(width, height) * 0.1;
     double stackWidth = width;
     double stackHeight = height * 0.67;
 
@@ -71,7 +70,8 @@ class _SolverPageState extends State<SolverPage> {
                   height: stackHeight,
                   child: Stack(
                     children: drawBalls(stackHeight, stackWidth,
-                        tubeRatio, tubeWidth, tubeHeight, tubeAmount),
+                        tubeRatio, tubeWidth, tubeHeight,
+                        tubeAmount, itemPerTube),
                     /*<Widget>[
                       AnimatedPositioned(
                         width: ratio,
@@ -154,45 +154,11 @@ class _SolverPageState extends State<SolverPage> {
     );
   }
 
-  double getTubeRatio(double width, double height,
-      int tubeAmount, int itemPerTube) {
-    double tubeRatio =  min(width, height) * 0.1;
-    if(tubeAmount > 8) {
-      switch( itemPerTube) {
-        case 5:
-          tubeRatio = min(width, height) * 0.08;
-          break;
-        case 6:
-          tubeRatio = min(width, height) * 0.065;
-          break;
-        case 7:
-          tubeRatio = min(width, height) * 0.055;
-          break;
-      }
-      tubeRatio = tubeRatio * 0.9;
-    }
-    if(tubeAmount > 16) {
-      switch( itemPerTube) {
-        case 5:
-          tubeRatio = min(width, height) * 0.08;
-          break;
-        case 6:
-          tubeRatio = min(width, height) * 0.065;
-          break;
-        case 7:
-          tubeRatio = min(width, height) * 0.055;
-          break;
-      }
-      tubeRatio = tubeRatio * 0.65;
-    }
-    return tubeRatio;
-  }
-
   List<Widget> drawBalls(
       double stackHeight, double stackWidth,double ratio,
-      double tubeWidth, double tubeHeight, int amount) {
+      double tubeWidth, double tubeHeight, int amount, int itemsPerTube) {
     List<Widget> tubes = drawTubes(stackHeight, stackWidth,
-        ratio, tubeWidth, tubeHeight, amount);
+        ratio, tubeWidth, tubeHeight, amount, itemsPerTube);
     int internalTubes = amount;
     bool extraRow = (internalTubes % 8) > 0;
 

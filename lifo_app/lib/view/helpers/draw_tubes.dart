@@ -1,11 +1,47 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:lifo_app/view/subwidgets/tube.solve.dart';
 
+double getTubeRatio(double width, double height,
+    int tubeAmount, int itemPerTube) {
+  double tubeRatio =  min(width, height) * 0.1;
+  if(tubeAmount > 8) {
+    switch( itemPerTube) {
+      case 5:
+        tubeRatio = min(width, height) * 0.08;
+        break;
+      case 6:
+        tubeRatio = min(width, height) * 0.065;
+        break;
+      case 7:
+        tubeRatio = min(width, height) * 0.055;
+        break;
+    }
+    tubeRatio = tubeRatio * 0.9;
+  }
+  if(tubeAmount > 16) {
+    switch( itemPerTube) {
+      case 5:
+        tubeRatio = min(width, height) * 0.08;
+        break;
+      case 6:
+        tubeRatio = min(width, height) * 0.065;
+        break;
+      case 7:
+        tubeRatio = min(width, height) * 0.055;
+        break;
+    }
+    tubeRatio = tubeRatio * 0.65;
+  }
+  return tubeRatio;
+}
+
 List<Widget> drawTubes(
     double stackHeight, double stackWidth,double ratio,
-    double tubeWidth, double tubeHeight, int amount) {
+    double tubeWidth, double tubeHeight, int amountOfTubes, int itemsPerTube) {
 
-  int internalTubes = amount;
+  int internalTubes = amountOfTubes;
   bool extraRow = (internalTubes % 8) > 0;
   List<Widget> tubes = <Widget>[];
   //integer division
@@ -19,13 +55,35 @@ List<Widget> drawTubes(
   if(rows == 3){
     minusFactorH = 1.85;
     minusFactorW = 1.6;
+    switch(itemsPerTube){
+      case 5:
+        minusFactorW = 1.5;
+        break;
+      case 6:
+        minusFactorW = 1.4;
+        break;
+      case 7:
+        minusFactorW = 1.39;
+        break;
+    }
   }
   if(rows == 2){
     minusFactorH = 1.87;
     minusFactorW = 1.65;
+    switch(itemsPerTube){
+      case 5:
+        minusFactorW = 1.63;
+        break;
+      case 6:
+        minusFactorW = 1.59;
+        break;
+      case 7:
+        minusFactorW = 1.53;
+        break;
+    }
   }
   if(rows == 1){
-    minusFactorH = 1.9;
+    minusFactorH = 1.91;
     minusFactorW = 1.7;
   }
   for(int indexRow = 1; indexRow < (rows+1) ;indexRow++) {
