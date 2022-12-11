@@ -3,19 +3,19 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:lifo_app/view/subwidgets/tube.solve.dart';
 
-double getTubeRatio(double width, double height,
+double getTubeRatio(double ratio,
     int tubeAmount, int itemPerTube) {
-  double tubeRatio =  min(width, height) * 0.1;
+  double tubeRatio =  ratio;
   if(tubeAmount > 8) {
     switch( itemPerTube) {
       case 5:
-        tubeRatio = min(width, height) * 0.08;
+        tubeRatio = ratio * 0.8;
         break;
       case 6:
-        tubeRatio = min(width, height) * 0.065;
+        tubeRatio = ratio * 0.65;
         break;
       case 7:
-        tubeRatio = min(width, height) * 0.055;
+        tubeRatio = ratio * 0.55;
         break;
     }
     tubeRatio = tubeRatio * 0.9;
@@ -23,13 +23,13 @@ double getTubeRatio(double width, double height,
   if(tubeAmount > 16) {
     switch( itemPerTube) {
       case 5:
-        tubeRatio = min(width, height) * 0.08;
+        tubeRatio = ratio * 0.8;
         break;
       case 6:
-        tubeRatio = min(width, height) * 0.065;
+        tubeRatio = ratio * 0.65;
         break;
       case 7:
-        tubeRatio = min(width, height) * 0.055;
+        tubeRatio = ratio * 0.55;
         break;
     }
     tubeRatio = tubeRatio * 0.65;
@@ -38,7 +38,7 @@ double getTubeRatio(double width, double height,
 }
 
 List<Widget> drawTubes(
-    double stackHeight, double stackWidth,double ratio,
+    double stackHeight, double stackWidth,
     double tubeWidth, double tubeHeight, int amountOfTubes, int itemsPerTube) {
 
   int internalTubes = amountOfTubes;
@@ -99,7 +99,7 @@ List<Widget> drawTubes(
       double tubeLeft = (stackWidth * factor) - (tubeWidth /minusFactorW);
       tubes.add(
         TubeSolver(left: tubeLeft,top: tubeTop,
-            ratio: ratio, tubeWidth: tubeWidth,
+            tubeWidth: tubeWidth,
             tubeHeight: tubeHeight),
       );
     }

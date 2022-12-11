@@ -1,15 +1,12 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 class TubeSolver extends StatelessWidget {
 
   const TubeSolver({super.key, required this.left,
-  required this.top, required this.ratio,
+  required this.top,
   required this.tubeWidth, required this.tubeHeight});
   final double left;
   final double top;
-  final double ratio;
   final double tubeWidth;
   final double tubeHeight;
   @override
@@ -24,8 +21,8 @@ class TubeSolver extends StatelessWidget {
           side: const BorderSide(
             color: Colors.blueAccent,
           ),
-          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(ratio),
-              bottomRight: Radius.circular(ratio)),
+          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(tubeWidth),
+              bottomRight: Radius.circular(tubeWidth)),
         ),
         child: SizedBox(
           width: tubeWidth,

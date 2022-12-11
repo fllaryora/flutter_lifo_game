@@ -36,12 +36,6 @@ class _SolverPageState extends State<SolverPage> {
     double ratio = min(width, height) * 0.1;
     double stackWidth = width;
     double stackHeight = height * 0.67;
-
-    double tubeRatio = getTubeRatio( width, height, tubeAmount, itemPerTube);
-
-    double tubeWidth = tubeRatio;
-    double tubeHeight = tubeRatio * itemPerTube;
-
     return Scaffold(
       backgroundColor: const Color(0xfffffaeb),
       appBar: AppBar(title: Text(widget.title),),
@@ -71,8 +65,7 @@ class _SolverPageState extends State<SolverPage> {
                   height: stackHeight,
                   child: Stack(
                     children: drawScenario(stackHeight, stackWidth,
-                        tubeRatio, tubeWidth, tubeHeight,
-                        tubeAmount, itemPerTube),
+                        ratio, tubeAmount, itemPerTube),
                   ),
                 ),
               ),
@@ -134,13 +127,19 @@ class _SolverPageState extends State<SolverPage> {
   }
 
   List<Widget> drawScenario(
-      double stackHeight, double stackWidth,double ratio,
-      double tubeWidth, double tubeHeight, int amount, int itemsPerTube) {
+      double stackHeight, double stackWidth, double ratio,
+       int tubeAmount, int itemsPerTube) {
+
+    double tubeRatio = getTubeRatio( ratio, tubeAmount, itemsPerTube);
+    double tubeWidth = tubeRatio;
+    double tubeHeight = tubeRatio * itemsPerTube;
+
     List<Widget> items = drawTubes(stackHeight, stackWidth,
-        ratio, tubeWidth, tubeHeight, amount, itemsPerTube);
+         tubeWidth, tubeHeight, tubeAmount, itemsPerTube);
+
     items.addAll(drawBalls(
-         stackHeight,  stackWidth, ratio,
-         tubeWidth, tubeHeight, amount, itemsPerTube));
+         stackHeight,  stackWidth, tubeRatio,
+         tubeWidth, tubeHeight, tubeAmount, itemsPerTube));
     return items;
   }
 
