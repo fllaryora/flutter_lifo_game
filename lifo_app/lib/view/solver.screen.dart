@@ -27,23 +27,18 @@ class _SolverPageState extends State<SolverPage> {
   bool selected = false;
   @override
   Widget build(BuildContext context) {
-    int tubeAmount = 6;
-    int itemPerTube = 4;
+    int tubeAmount = 18;
+    int itemPerTube = 7;//4 normal//7 alto
 
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     //Depende de la cantidad de pelotas
-    double ratio = min(width, height)*0.1; //tamanyo de las pelotas
+    double ratio = min(width, height) * 0.1; //tamanyo de las pelotas
     double stackWidth = width;
     double stackHeight = height * 0.67;
 
-    double tubeRatio = ratio;
-    if(tubeAmount > 8){
-      tubeRatio = ratio * 0.9;
-    }
-    if(tubeAmount > 16){
-      tubeRatio = ratio * 0.65;
-    }
+    double tubeRatio = getTubeRatio( width, height, tubeAmount, itemPerTube);
+
     double tubeWidth = tubeRatio;
     double tubeHeight = tubeRatio * itemPerTube;
 
@@ -157,6 +152,40 @@ class _SolverPageState extends State<SolverPage> {
             ],
           ),
     );
+  }
+
+  double getTubeRatio(double width, double height,
+      int tubeAmount, int itemPerTube) {
+    double tubeRatio =  min(width, height) * 0.1;
+    if(tubeAmount > 8) {
+      switch( itemPerTube) {
+        case 5:
+          tubeRatio = min(width, height) * 0.08;
+          break;
+        case 6:
+          tubeRatio = min(width, height) * 0.065;
+          break;
+        case 7:
+          tubeRatio = min(width, height) * 0.055;
+          break;
+      }
+      tubeRatio = tubeRatio * 0.9;
+    }
+    if(tubeAmount > 16) {
+      switch( itemPerTube) {
+        case 5:
+          tubeRatio = min(width, height) * 0.08;
+          break;
+        case 6:
+          tubeRatio = min(width, height) * 0.065;
+          break;
+        case 7:
+          tubeRatio = min(width, height) * 0.055;
+          break;
+      }
+      tubeRatio = tubeRatio * 0.65;
+    }
+    return tubeRatio;
   }
 
   List<Widget> drawBalls(

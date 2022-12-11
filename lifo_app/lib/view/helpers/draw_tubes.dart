@@ -13,6 +13,7 @@ List<Widget> drawTubes(
   if(extraRow){
     rows = rows + 1;
   }
+  //Estos factores corrigen el descentradode las cards
   double minusFactorH = 2.0;
   double minusFactorW = 2.0;
   if(rows == 3){
