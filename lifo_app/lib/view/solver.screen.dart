@@ -26,7 +26,7 @@ class _SolverPageState extends State<SolverPage> {
   bool selected = false;
   @override
   Widget build(BuildContext context) {
-    int tubeAmount = 8;
+    int tubeAmount = 15;
     int itemPerTube = 4;
 
     double width = MediaQuery.of(context).size.width;
@@ -116,7 +116,8 @@ class _SolverPageState extends State<SolverPage> {
       rows = rows + 1;
     }
     for(int indexRow = 1; indexRow < (rows+1) ;indexRow++) {
-      double tubeTop = (stackHeight/2.0) - (tubeHeight/2.0);
+      double factor = indexRow.toDouble() / (rows+1).toDouble();
+      double tubeTop = (stackHeight * factor) - (tubeHeight/2.0);
       int columns = internalTubes;
       internalTubes = internalTubes - 8;
       if(internalTubes > 0) {
