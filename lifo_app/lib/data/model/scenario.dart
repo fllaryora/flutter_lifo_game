@@ -86,8 +86,9 @@ class Scenario {
     bool allValids = true;
     for(Tube tube in content) {
       allValids = allValids & (tube.areAllBallsTheSameColour);
+      //BUGFIX : all the balls are the same color but rest the final moves
+      allValids = allValids & (tube.isFull | tube.isEmpty);
     }
-
     return allValids;
   }
 
