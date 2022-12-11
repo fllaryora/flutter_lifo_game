@@ -108,25 +108,54 @@ class _SolverPageState extends State<SolverPage> {
               SizedBox(
                 height: ratio/4,
               ),
-              Material(
-                color: Colors.blueGrey.shade300,
-                borderRadius: BorderRadius.circular(ratio*2.5),
-                child: InkWell(
-                  onTap: () {
-                  },
-                  borderRadius: BorderRadius.circular(ratio*2.5),
-                  child: Container(
-                    width: ratio * 4.0,
-                    height: ratio,
-                    alignment: Alignment.center,
-                    child: const Text('Validate',
-                        style: TextStyle(fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.white
-                        )
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Material(
+                    color: Colors.blueGrey.shade300,
+                    borderRadius: BorderRadius.circular(ratio*2.5),
+                    child: InkWell(
+                      onTap: () {
+                      },
+                      borderRadius: BorderRadius.circular(ratio*2.5),
+                      child: Container(
+                        width: ratio * 4.0,
+                        height: ratio,
+                        alignment: Alignment.center,
+                        child: const Text('Prev',
+                            style: TextStyle(fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: Colors.white
+                            )
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  SizedBox(
+                    width: ratio/2,
+                  ),
+                  Material(
+                    color: Colors.blueGrey.shade300,
+                    borderRadius: BorderRadius.circular(ratio*2.5),
+                    child: InkWell(
+                      onTap: () {
+                      },
+                      borderRadius: BorderRadius.circular(ratio*2.5),
+                      child: Container(
+                        width: ratio * 4.0,
+                        height: ratio,
+                        alignment: Alignment.center,
+                        child: const Text('Next',
+                            style: TextStyle(fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: Colors.white
+                            )
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               )
             ],
           ),
