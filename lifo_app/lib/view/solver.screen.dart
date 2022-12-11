@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lifo_app/data/model/scenario.dart';
+import 'package:lifo_app/view/helpers/draw_balls.dart';
 import 'package:lifo_app/view/helpers/draw_tubes.dart';
 import 'package:lifo_app/view/subwidgets/tube.solve.dart';
 
@@ -69,31 +70,9 @@ class _SolverPageState extends State<SolverPage> {
                   width: width,
                   height: stackHeight,
                   child: Stack(
-                    children: drawBalls(stackHeight, stackWidth,
+                    children: drawScenario(stackHeight, stackWidth,
                         tubeRatio, tubeWidth, tubeHeight,
                         tubeAmount, itemPerTube),
-                    /*<Widget>[
-                      AnimatedPositioned(
-                        width: ratio,
-                        height: ratio,
-                        left: selected ? gap : 150.0,
-                        top: selected ? gap : 150.0,
-                        duration: const Duration(seconds: 1),
-                        curve: Curves.fastOutSlowIn,
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              selected = !selected;
-                            });
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(color: Colors.red,
-                                borderRadius: BorderRadius.circular(ratio)
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],*/
                   ),
                 ),
               ),
@@ -154,47 +133,15 @@ class _SolverPageState extends State<SolverPage> {
     );
   }
 
-  List<Widget> drawBalls(
+  List<Widget> drawScenario(
       double stackHeight, double stackWidth,double ratio,
       double tubeWidth, double tubeHeight, int amount, int itemsPerTube) {
-    List<Widget> tubes = drawTubes(stackHeight, stackWidth,
+    List<Widget> items = drawTubes(stackHeight, stackWidth,
         ratio, tubeWidth, tubeHeight, amount, itemsPerTube);
-    int internalTubes = amount;
-    bool extraRow = (internalTubes % 8) > 0;
-
-    //integer division
-    int rows = internalTubes ~/8;
-    if(extraRow){
-      rows = rows + 1;
-    }
-    for(int indexRow = 1; indexRow < (rows+1) ;indexRow++) {
-      double factor = indexRow.toDouble() / (rows+1).toDouble();
-      double tubeTop = (stackHeight * factor) - (tubeHeight/2.0);
-      int columns = internalTubes;
-      internalTubes = internalTubes - 8;
-      if(internalTubes > 0) {
-        columns = 8;
-      }
-      for(int indexColumn = 1; indexColumn < (columns+1) ;indexColumn++) {
-        double factor = indexColumn.toDouble() / (columns+1).toDouble();
-        double tubeLeft = (stackWidth * factor) - (tubeWidth /2.0);
-        tubes.add(
-          AnimatedPositioned(
-            width: ratio,
-            height: ratio,
-            left: tubeLeft,
-            top: tubeTop,
-            duration: const Duration(seconds: 1),
-            curve: Curves.fastOutSlowIn,
-            child:  Container(
-              decoration: BoxDecoration(color: Colors.red,
-                  borderRadius: BorderRadius.circular(ratio)
-              ),
-            ),
-          ),
-        );
-      }
-    }
-    return tubes;
+    items.addAll(drawBalls(
+         stackHeight,  stackWidth, ratio,
+         tubeWidth, tubeHeight, amount, itemsPerTube));
+    return items;
   }
+
 }
