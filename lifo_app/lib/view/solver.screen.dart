@@ -1,10 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:lifo_app/data/model/Tube.dart';
 import 'package:lifo_app/data/model/scenario.dart';
 import 'package:lifo_app/view/helpers/draw_balls.dart';
 import 'package:lifo_app/view/helpers/draw_tubes.dart';
-import 'package:lifo_app/view/subwidgets/tube.solve.dart';
 
 class SolverPage extends StatefulWidget {
   const SolverPage({super.key, required this.title,
@@ -19,17 +18,18 @@ class SolverPage extends StatefulWidget {
 class _SolverPageState extends State<SolverPage> {
 
 
+  late int itemPerTube;
+  late int currentScenario;
   @override
   void initState() {
-
+    itemPerTube = maxSpaces;
+    currentScenario = 0;
     super.initState();
   }
 
   bool selected = false;
   @override
   Widget build(BuildContext context) {
-    int tubeAmount = 18;
-    int itemPerTube = 6;//4 normal//7 alto
 
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -65,7 +65,7 @@ class _SolverPageState extends State<SolverPage> {
                   height: stackHeight,
                   child: Stack(
                     children: drawScenario(stackHeight, stackWidth,
-                        ratio, tubeAmount, itemPerTube),
+                        ratio),
                   ),
                 ),
               ),
@@ -81,6 +81,11 @@ class _SolverPageState extends State<SolverPage> {
                     borderRadius: BorderRadius.circular(ratio*2.5),
                     child: InkWell(
                       onTap: () {
+                        if(currentScenario > 0){
+                          setState(() {
+                            currentScenario = currentScenario - 1;
+                          });
+                        }
                       },
                       borderRadius: BorderRadius.circular(ratio*2.5),
                       child: Container(
@@ -104,6 +109,11 @@ class _SolverPageState extends State<SolverPage> {
                     borderRadius: BorderRadius.circular(ratio*2.5),
                     child: InkWell(
                       onTap: () {
+                        if(currentScenario < (widget.solution.length - 1)){
+                          setState(() {
+                            currentScenario = currentScenario + 1;
+                          });
+                        }
                       },
                       borderRadius: BorderRadius.circular(ratio*2.5),
                       child: Container(
@@ -127,19 +137,18 @@ class _SolverPageState extends State<SolverPage> {
   }
 
   List<Widget> drawScenario(
-      double stackHeight, double stackWidth, double ratio,
-       int tubeAmount, int itemsPerTube) {
+      double stackHeight, double stackWidth, double ratio) {
 
-    double tubeRatio = getTubeRatio( ratio, tubeAmount, itemsPerTube);
+    double tubeRatio = getTubeRatio(ratio);
     double tubeWidth = tubeRatio;
-    double tubeHeight = tubeRatio * itemsPerTube;
-
-    List<Widget> items = drawTubes(stackHeight, stackWidth,
-         tubeWidth, tubeHeight, tubeAmount, itemsPerTube);
+    double tubeHeight = tubeRatio * itemPerTube;
+    List<Widget> items = drawTubes(
+        stackHeight, stackWidth,
+         tubeWidth, tubeHeight);
 
     items.addAll(drawBalls(
          stackHeight,  stackWidth, tubeRatio,
-         tubeWidth, tubeHeight, tubeAmount, itemsPerTube));
+         tubeWidth, tubeHeight, widget.solution[currentScenario]));
     return items;
   }
 

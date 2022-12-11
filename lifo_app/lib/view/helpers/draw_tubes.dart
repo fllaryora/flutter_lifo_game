@@ -1,13 +1,16 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:lifo_app/data/model/Tube.dart';
+import 'package:lifo_app/data/model/scenario.dart';
 import 'package:lifo_app/view/subwidgets/tube.solve.dart';
 
-double getTubeRatio(double ratio,
-    int tubeAmount, int itemPerTube) {
+double getTubeRatio(double ratio) {
+
+  int tubeAmount =  maxColors + extraTubes;
+  int itemsPerTube = maxSpaces;
+
   double tubeRatio =  ratio;
   if(tubeAmount > 8) {
-    switch( itemPerTube) {
+    switch( itemsPerTube) {
       case 5:
         tubeRatio = ratio * 0.8;
         break;
@@ -21,7 +24,7 @@ double getTubeRatio(double ratio,
     tubeRatio = tubeRatio * 0.9;
   }
   if(tubeAmount > 16) {
-    switch( itemPerTube) {
+    switch( itemsPerTube) {
       case 5:
         tubeRatio = ratio * 0.8;
         break;
@@ -39,9 +42,9 @@ double getTubeRatio(double ratio,
 
 List<Widget> drawTubes(
     double stackHeight, double stackWidth,
-    double tubeWidth, double tubeHeight, int amountOfTubes, int itemsPerTube) {
-
-  int internalTubes = amountOfTubes;
+    double tubeWidth, double tubeHeight) {
+  int itemsPerTube = maxSpaces;
+  int internalTubes = maxColors + extraTubes;
   bool extraRow = (internalTubes % 8) > 0;
   List<Widget> tubes = <Widget>[];
   //integer division

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:lifo_app/data/model/Tube.dart';
+import 'package:lifo_app/data/model/scenario.dart';
+import 'package:lifo_app/view/subwidgets/ball.solve.dart';
 
 List<Widget> drawBalls(
     double stackHeight, double stackWidth,double ratio,
-    double tubeWidth, double tubeHeight, int amount, int itemsPerTube) {
+    double tubeWidth, double tubeHeight, Scenario sceneario) {
   List<Widget> balls = <Widget>[];
-  int internalTubes = amount;
+  int internalTubes = maxColors + extraTubes;
+  int itemsPerTube = maxSpaces;
   bool extraRow = (internalTubes % 8) > 0;
-
+  int tubeIndex = 0;
   //integer division
   int rows = internalTubes ~/8;
   if(extraRow){
@@ -23,21 +27,21 @@ List<Widget> drawBalls(
     for(int indexColumn = 1; indexColumn < (columns+1) ;indexColumn++) {
       double factor = indexColumn.toDouble() / (columns+1).toDouble();
       double tubeLeft = (stackWidth * factor) - (tubeWidth /2.0);
-      balls.add(
-        AnimatedPositioned(
-          width: ratio,
-          height: ratio,
-          left: tubeLeft,
-          top: tubeTop,
-          duration: const Duration(seconds: 1),
-          curve: Curves.fastOutSlowIn,
-          child:  Container(
-            decoration: BoxDecoration(color: Colors.red,
-                borderRadius: BorderRadius.circular(ratio)
-            ),
-          ),
-        ),
-      );
+      Tube currentTube = sceneario.content[tubeIndex];
+
+      if (currentTube.content.isNotEmpty) {
+        int reversalIndex = itemsPerTube -1;
+        for(int indexBall = 0; indexBall < currentTube.content.length; indexBall++) {
+          int initialColorIndex = currentTube.content[indexBall];
+          balls.add(
+              BallSolve(ratio: ratio, initialColorIndex: initialColorIndex,
+                  tubeLeft: tubeLeft,
+                  tubeTop: tubeTop + (ratio * reversalIndex))
+          );
+          reversalIndex--;
+        }
+      }
+      tubeIndex++;
     }
   }
   return balls;

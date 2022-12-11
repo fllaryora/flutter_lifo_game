@@ -1,8 +1,6 @@
 
 import 'package:lifo_app/data/model/Tube.dart';
 
-
-
 int maxColors = 0;
 int extraTubes = 2; //usually
 class Scenario {
@@ -117,18 +115,6 @@ class Scenario {
     }
     return total;
   }
-
-  /*
-  Scenario reColorScenarioForStoring() {
-    Scenario original = this;
-    Scenario perfect = Scenario.fromList(content);
-    perfect.content.sort((a, b) { return a.compareTo(b); });
-    int newColor = 1;
-    Map<int,int> recolor =  <int, int>{};
-    //TODO no se cual es el algoritmo para llevar los coloeres a un
-    //TODO  standar y no repetir scenarios
-    return perfect;
-  }*/
 
   Scenario? fromMove(int _tubePop, int _tubePush) {
     Tube tubePop = content[_tubePop];
