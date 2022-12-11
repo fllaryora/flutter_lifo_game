@@ -18,6 +18,7 @@ class TubeSolver extends StatelessWidget {
       left: left,
       top: top ,
       child: Card(
+        elevation: 0.0,
         color: Colors.grey.shade100,
         shape:  RoundedRectangleBorder(
           side: const BorderSide(

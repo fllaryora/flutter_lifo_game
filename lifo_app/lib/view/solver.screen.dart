@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lifo_app/data/model/scenario.dart';
+import 'package:lifo_app/view/helpers/draw_tubes.dart';
 import 'package:lifo_app/view/subwidgets/tube.solve.dart';
 
 class SolverPage extends StatefulWidget {
@@ -26,7 +27,7 @@ class _SolverPageState extends State<SolverPage> {
   bool selected = false;
   @override
   Widget build(BuildContext context) {
-    int tubeAmount = 18;
+    int tubeAmount = 6;
     int itemPerTube = 4;
 
     double width = MediaQuery.of(context).size.width;
@@ -74,13 +75,9 @@ class _SolverPageState extends State<SolverPage> {
                   width: width,
                   height: stackHeight,
                   child: Stack(
-                    children: drawTubes(stackHeight, stackWidth,
-                        ratio, tubeWidth, tubeHeight, tubeAmount),
+                    children: drawBalls(stackHeight, stackWidth,
+                        tubeRatio, tubeWidth, tubeHeight, tubeAmount),
                     /*<Widget>[
-                      TubeSolver(left: tubeLeft,top: tubeTop,
-                          ratio: ratio, tubeWidth: tubeWidth,
-                          tubeHeight: tubeHeight),
-
                       AnimatedPositioned(
                         width: ratio,
                         height: ratio,
@@ -162,13 +159,14 @@ class _SolverPageState extends State<SolverPage> {
     );
   }
 
-  List<Widget> drawTubes(
+  List<Widget> drawBalls(
       double stackHeight, double stackWidth,double ratio,
       double tubeWidth, double tubeHeight, int amount) {
-
+    List<Widget> tubes = drawTubes(stackHeight, stackWidth,
+        ratio, tubeWidth, tubeHeight, amount);
     int internalTubes = amount;
     bool extraRow = (internalTubes % 8) > 0;
-    List<Widget> tubes = <Widget>[];
+
     //integer division
     int rows = internalTubes ~/8;
     if(extraRow){
@@ -186,9 +184,19 @@ class _SolverPageState extends State<SolverPage> {
         double factor = indexColumn.toDouble() / (columns+1).toDouble();
         double tubeLeft = (stackWidth * factor) - (tubeWidth /2.0);
         tubes.add(
-          TubeSolver(left: tubeLeft,top: tubeTop,
-              ratio: ratio, tubeWidth: tubeWidth,
-              tubeHeight: tubeHeight),
+          AnimatedPositioned(
+            width: ratio,
+            height: ratio,
+            left: tubeLeft,
+            top: tubeTop,
+            duration: const Duration(seconds: 1),
+            curve: Curves.fastOutSlowIn,
+            child:  Container(
+              decoration: BoxDecoration(color: Colors.red,
+                  borderRadius: BorderRadius.circular(ratio)
+              ),
+            ),
+          ),
         );
       }
     }
