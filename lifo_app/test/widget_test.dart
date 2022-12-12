@@ -7,24 +7,48 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lifo_app/data/model/Tube.dart';
+import 'package:lifo_app/data/model/balls.dart';
+import 'package:lifo_app/data/model/scenario.dart';
+import 'package:lifo_app/view/configure.dart';
 
-import 'package:lifo_app/main.dart';
+import 'view/helper/make_testable.dart';
+
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    int _itemsPerTube = 2;
+    int _extraTubes = 2;
+    int _amountOfColors = 3;
+    maxColors = _amountOfColors;
+    maxSpaces = _itemsPerTube;
+    extraTubes = _extraTubes;
 
+    Scenario scenarioToExperiment = Scenario.fromColors([
+      [AMARILLO-1, ROJO-1],
+      [ROJO-1, AZUL-1,],
+      [AMARILLO-1, AZUL-1],
+      [],//extra tubes
+      []
+    ]);
+
+    ConfigurePage widget = ConfigurePage(title: 'Lifo Solver',
+      itemsPerTube:_itemsPerTube,
+      amountOfColors: _amountOfColors,
+      extraTubesToUse: _extraTubes,);
+    // Build our app and trigger a frame.
+    await tester.pumpWidget(buildTestableWidget( widget));
+    Scenario currentScenario = widget.getScenario();
     // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    //expect(find.text('0'), findsOneWidget);
+    //expect(find.text('1'), findsNothing);
 
     // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    //await tester.tap(find.byKey(Key('validate')));
+    //await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify that our content is equal.
+    expect(scenarioToExperiment == currentScenario, true);
+    //expect(find.text('1'), findsOneWidget);
   });
 }

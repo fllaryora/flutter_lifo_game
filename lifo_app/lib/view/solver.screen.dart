@@ -192,9 +192,15 @@ class _SolverPageState extends State<SolverPage> {
         stackHeight, stackWidth,
          tubeWidth, tubeHeight);
 
+    int move = 0;
+    if(currentScenario != 0) {
+      move = thisScenaro.getMove()[1];
+    } else {
+      move =  widget.solution[currentScenario+1].getMove()[0];
+    }
     items.addAll(drawBalls(
          stackHeight,  stackWidth, tubeRatio,
-         tubeWidth, tubeHeight, thisScenaro));
+         tubeWidth, tubeHeight, thisScenaro, move));
     return items;
   }
 

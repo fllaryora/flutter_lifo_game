@@ -1,34 +1,49 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:lifo_app/data/model/scenario.dart';
 import 'package:lifo_app/domain/a_star.dart';
 import 'package:lifo_app/view/solver.screen.dart';
 import 'package:lifo_app/view/subwidgets/tube.dart';
 
+import '../data/model/balls.dart';
+
 class ConfigurePage extends StatefulWidget {
-  const ConfigurePage({super.key, required this.title,
+  ConfigurePage({super.key, required this.title,
   required this.itemsPerTube, required this.amountOfColors,
   required this.extraTubesToUse});
   final String title;
   final int itemsPerTube;
   final int amountOfColors;
   final int extraTubesToUse;
+
+  late ConfigurePageState myState;
+
   @override
-  State<ConfigurePage> createState() => _ConfigurePageState();
+  State<ConfigurePage> createState() {
+    myState = ConfigurePageState();
+    return myState;
+  }
+
+  Scenario getScenario() {
+    return Scenario.fromColors(myState.tubes);
+  }
 }
 
-class _ConfigurePageState extends State<ConfigurePage> {
+class ConfigurePageState extends State<ConfigurePage> {
 
   late List<List<int>> tubes;
   List<Scenario>? solution;
   @override
   void initState() {
     tubes = <List<int>>[];
+    List<Balls> bolas = Balls.values;
+    Random random = Random(87);
     for(int tubeIndex = 0; tubeIndex < widget.amountOfColors; tubeIndex++) {
       List<int> temporal = <int>[];
       for(int ballIndex = 0; ballIndex < widget.itemsPerTube; ballIndex++) {
-        int indexColor = Random().nextInt(widget.amountOfColors - 1);
+        int indexColor = random.nextInt(widget.amountOfColors);
+        Balls bola = bolas[indexColor + 1];
+        print("Agrego bola" + bola.name);
         temporal.add(indexColor);
       }
       tubes.add(temporal);
@@ -106,6 +121,7 @@ class _ConfigurePageState extends State<ConfigurePage> {
                   color: Colors.blueGrey.shade300,
                   borderRadius: BorderRadius.circular(ratio*2.5),
                   child: InkWell(
+                    key: const Key('validate'),
                     onTap: () {
                       Scenario scenarioToExperiment = Scenario.fromColors(
                           tubes

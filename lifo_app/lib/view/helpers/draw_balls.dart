@@ -6,7 +6,7 @@ import 'package:lifo_app/view/subwidgets/ball.solve.fix.dart';
 
 List<Widget> drawBalls(
     double stackHeight, double stackWidth,double ratio,
-    double tubeWidth, double tubeHeight, Scenario sceneario) {
+    double tubeWidth, double tubeHeight, Scenario sceneario, int moveIndex) {
   List<Widget> balls = <Widget>[];
   int internalTubes = maxColors + extraTubes;
   int itemsPerTube = maxSpaces;
@@ -29,7 +29,11 @@ List<Widget> drawBalls(
       double factor = indexColumn.toDouble() / (columns+1).toDouble();
       double tubeLeft = (stackWidth * factor) - (tubeWidth /2.0);
       Tube currentTube = sceneario.content[tubeIndex];
-      useAnimatedBall(currentTube, itemsPerTube, balls, ratio, tubeLeft, tubeTop);
+      if(moveIndex == tubeIndex) {
+        useAnimatedBall(currentTube, itemsPerTube, balls, ratio, tubeLeft, tubeTop);
+      } else {
+        useFixedBall(currentTube, itemsPerTube, balls, ratio, tubeLeft, tubeTop);
+      }
       tubeIndex++;
     }
   }
@@ -41,8 +45,10 @@ void useAnimatedBall(Tube currentTube, int itemsPerTube,
   if (currentTube.content.isNotEmpty) {
     int reversalIndex = itemsPerTube -1;
     for(int indexBall = 0; indexBall < currentTube.content.length; indexBall++) {
+    //for(int indexBall = currentTube.content.length-1; indexBall >= 0; indexBall--) {
       int initialColorIndex = currentTube.content[indexBall];
-      bool lastLoop = !((indexBall+1) < currentTube.content.length);
+      //bool lastLoop = true;//!((indexBall+1) < currentTube.content.length);
+      bool lastLoop = ((indexBall+1) < currentTube.content.length);
       if(lastLoop) {
         balls.add(
             BallSolve(ratio: ratio, initialColorIndex: initialColorIndex,
@@ -56,6 +62,22 @@ void useAnimatedBall(Tube currentTube, int itemsPerTube,
                 tubeTop: tubeTop + (ratio * reversalIndex))
         );
       }
+      reversalIndex--;
+    }
+  }
+}
+void useFixedBall(Tube currentTube, int itemsPerTube,
+    List<Widget> balls, double ratio, double tubeLeft, double tubeTop) {
+  if (currentTube.content.isNotEmpty) {
+    int reversalIndex = itemsPerTube -1;
+    for(int indexBall = 0; indexBall < currentTube.content.length; indexBall++) {
+    //for(int indexBall = currentTube.content.length-1; indexBall >= 0; indexBall--) {
+      int initialColorIndex = currentTube.content[indexBall];
+      balls.add(
+          BallSolveFixed(ratio: ratio, initialColorIndex: initialColorIndex,
+              tubeLeft: tubeLeft,
+              tubeTop: tubeTop + (ratio * reversalIndex))
+      );
       reversalIndex--;
     }
   }

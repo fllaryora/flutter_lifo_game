@@ -53,7 +53,9 @@ class TubeState extends State<TubeComponent> {
   List<Widget> getBalls() {
     List<Widget> ballsW = <Widget>[];
     for(int ballIndex = 0; ballIndex < itemsPerTube; ballIndex++) {
-      ballsW.add (Ball( amount: amountOfColors,
+      //bugfix
+      //prepend
+      ballsW.insert(0, Ball( amount: amountOfColors,
           initialColorIndex: widget.initialTube[ballIndex],
           onChanged: (int newIndexColor) {
             widget.initialTube[ballIndex] = newIndexColor;

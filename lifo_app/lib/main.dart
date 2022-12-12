@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Lifo Solver',
       theme: ThemeData(
         primarySwatch: buildMaterialColor(const Color(0xFFE1C699)),
         colorScheme: ColorScheme.fromSwatch()
