@@ -30,8 +30,12 @@ class AStarSearch {
     fScore[start] = start.getHeuristic();
   }
 
+  //bugfix
+  //some heuristics match 0
+  //at low balls
   bool isGoal(Scenario current) {
-    return current.getHeuristic() == 0;
+    return current.isFinish;
+    //return current.getHeuristic() == 0;
   }
 
   Set<Scenario> neighbors(Scenario current) {

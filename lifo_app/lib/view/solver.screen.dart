@@ -129,7 +129,9 @@ class _SolverPageState extends State<SolverPage> {
                       borderRadius: BorderRadius.circular(ratio*2.5),
                       child: InkWell(
                         onTap: () {
-                          if(isNextScenario()){
+
+                          if( isNextScenario() ) {
+
                             setState(() {
                               currentScenario = currentScenario + 1;
                             });
