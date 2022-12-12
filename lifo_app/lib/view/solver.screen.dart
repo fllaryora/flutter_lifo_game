@@ -33,7 +33,6 @@ class _SolverPageState extends State<SolverPage> {
   String moveDescription ="";
   @override
   Widget build(BuildContext context) {
-
     thisScenaro = widget.solution[currentScenario];
     createDescription();
 
@@ -162,6 +161,7 @@ class _SolverPageState extends State<SolverPage> {
   }
 
   void createDescription() {
+
     if(thisScenaro.isFinish) {
       moveDescription = "All the balls are sorted.";
     } else {
@@ -180,6 +180,7 @@ class _SolverPageState extends State<SolverPage> {
   }
 
   bool isNextScenario() => currentScenario < (widget.solution.length - 1);
+
 
   List<Widget> drawScenario(
       double stackHeight, double stackWidth, double ratio) {
