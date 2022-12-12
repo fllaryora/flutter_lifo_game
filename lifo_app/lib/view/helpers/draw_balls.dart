@@ -36,7 +36,8 @@ List<Widget> drawBalls(
   return balls;
 }
 
-void useAnimatedBall(Tube currentTube, int itemsPerTube, List<Widget> balls, double ratio, double tubeLeft, double tubeTop) {
+void useAnimatedBall(Tube currentTube, int itemsPerTube,
+    List<Widget> balls, double ratio, double tubeLeft, double tubeTop) {
   if (currentTube.content.isNotEmpty) {
     int reversalIndex = itemsPerTube -1;
     for(int indexBall = 0; indexBall < currentTube.content.length; indexBall++) {
