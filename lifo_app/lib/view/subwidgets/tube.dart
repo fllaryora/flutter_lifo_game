@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:lifo_app/data/model/Tube.dart';
+import 'package:lifo_app/view/model/pair_ball.dart';
 import 'package:lifo_app/view/subwidgets/ball.dart';
 
 class TubeComponent extends StatefulWidget {
@@ -8,7 +9,7 @@ class TubeComponent extends StatefulWidget {
   required this.itemsPerTube, required this.initialTube});
   final int amountOfColors;
   final int itemsPerTube;
-  final List<int> initialTube;
+  final List<PairBall> initialTube;
   late TubeState currentState;
   @override
   State<TubeComponent> createState() {
@@ -57,7 +58,7 @@ class TubeState extends State<TubeComponent> {
       //prepend
       ballsW.insert(0, Ball( amount: amountOfColors,
           initialColorIndex: widget.initialTube[ballIndex],
-          onChanged: (int newIndexColor) {
+          onChanged: (PairBall newIndexColor) {
             widget.initialTube[ballIndex] = newIndexColor;
           }));
     }

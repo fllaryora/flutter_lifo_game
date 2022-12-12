@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class BallSolve extends StatefulWidget {
-  const BallSolve({super.key, required this.ratio,
+  const BallSolve({required super.key, required this.ratio,
   required this.initialColorIndex, required this.tubeLeft,
   required this.tubeTop});
 
@@ -46,7 +46,8 @@ class BallSolveState extends State<BallSolve> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedPositioned(
+    return AnimatedPositioned (
+      key: widget.key,
       width: widget.ratio,
       height: widget.ratio,
       left: widget.tubeLeft,

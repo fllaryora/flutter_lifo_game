@@ -2,15 +2,16 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:lifo_app/data/model/Tube.dart';
 import 'package:lifo_app/data/model/balls.dart';
-import 'package:lifo_app/data/model/scenario.dart';
 import 'package:lifo_app/view/helpers/draw_balls.dart';
 import 'package:lifo_app/view/helpers/draw_tubes.dart';
+import 'package:lifo_app/view/model/TubeView.dart';
+import 'package:lifo_app/view/model/scenarioView.dart';
 
 class SolverPage extends StatefulWidget {
   const SolverPage({super.key, required this.title,
   required this.solution});
   final String title;
-  final List<Scenario> solution;
+  final List<ScenarioView> solution;
 
   @override
   State<SolverPage> createState() => _SolverPageState();
@@ -18,10 +19,10 @@ class SolverPage extends StatefulWidget {
 
 class _SolverPageState extends State<SolverPage> {
 
-
   late int itemPerTube;
   late int currentScenario;
-  late Scenario thisScenaro;
+  late ScenarioView thisScenaro;
+
   @override
   void initState() {
     itemPerTube = maxSpaces;
@@ -129,9 +130,7 @@ class _SolverPageState extends State<SolverPage> {
                       borderRadius: BorderRadius.circular(ratio*2.5),
                       child: InkWell(
                         onTap: () {
-
                           if( isNextScenario() ) {
-
                             setState(() {
                               currentScenario = currentScenario + 1;
                             });
@@ -168,10 +167,10 @@ class _SolverPageState extends State<SolverPage> {
       moveDescription = "All the balls are sorted.";
     } else {
       if(isNextScenario()) {
-        Scenario nextScenaro = widget.solution[currentScenario+1];
+        ScenarioView nextScenaro = widget.solution[currentScenario+1];
         List<int> nextMove = nextScenaro.getMove();
         int tubeIndex = nextMove[1];
-        Tube tubeDest = nextScenaro.content[tubeIndex];
+        TubeView tubeDest = nextScenaro.content[tubeIndex];
         int color = tubeDest.topColor!;
         List<Balls> bolas = Balls.values;
         Balls bola = bolas[color + 1];
@@ -194,15 +193,10 @@ class _SolverPageState extends State<SolverPage> {
         stackHeight, stackWidth,
          tubeWidth, tubeHeight);
 
-    int move = 0;
-    if(currentScenario != 0) {
-      move = thisScenaro.getMove()[1];
-    } else {
-      move =  widget.solution[currentScenario+1].getMove()[0];
-    }
+
     items.addAll(drawBalls(
          stackHeight,  stackWidth, tubeRatio,
-         tubeWidth, tubeHeight, thisScenaro, move));
+         tubeWidth, tubeHeight, thisScenaro));
     return items;
   }
 

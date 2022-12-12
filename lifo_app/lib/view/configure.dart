@@ -1,7 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:lifo_app/data/model/scenario.dart';
-import 'package:lifo_app/domain/a_star.dart';
+import 'package:lifo_app/view/model/a_starView.dart';
+import 'package:lifo_app/view/model/pair_ball.dart';
+import 'package:lifo_app/view/model/scenarioView.dart';
 import 'package:lifo_app/view/solver.screen.dart';
 import 'package:lifo_app/view/subwidgets/tube.dart';
 
@@ -24,32 +25,32 @@ class ConfigurePage extends StatefulWidget {
     return myState;
   }
 
-  Scenario getScenario() {
-    return Scenario.fromColors(myState.tubes);
+  ScenarioView getScenario() {
+    return ScenarioView.fromColors(myState.tubes);
   }
 }
 
 class ConfigurePageState extends State<ConfigurePage> {
 
-  late List<List<int>> tubes;
-  List<Scenario>? solution;
+  late List<List<PairBall>> tubes;
+  List<ScenarioView>? solution;
   @override
   void initState() {
-    tubes = <List<int>>[];
+    tubes = <List<PairBall>>[];
     List<Balls> bolas = Balls.values;
     Random random = Random(87);
     for(int tubeIndex = 0; tubeIndex < widget.amountOfColors; tubeIndex++) {
-      List<int> temporal = <int>[];
+      List<PairBall> temporal = <PairBall>[];
       for(int ballIndex = 0; ballIndex < widget.itemsPerTube; ballIndex++) {
         int indexColor = random.nextInt(widget.amountOfColors);
         Balls bola = bolas[indexColor + 1];
-        print("Agrego bola" + bola.name);
-        temporal.add(indexColor);
+        print("Agrego bola " + bola.name);
+        temporal.add(PairBall( indexColor,"${tubeIndex}${ballIndex}"));
       }
       tubes.add(temporal);
     }
     for(int tubeIndex = 0; tubeIndex < widget.extraTubesToUse; tubeIndex++) {
-      tubes.add(<int>[]);
+      tubes.add(<PairBall>[]);
     }
 
     super.initState();
@@ -58,6 +59,7 @@ class ConfigurePageState extends State<ConfigurePage> {
   @override
   Widget build(BuildContext context) {
     print("amountOfColors: " + widget.amountOfColors.toString());
+    print("itemsPerTube: " + widget.itemsPerTube.toString());
 
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -123,11 +125,11 @@ class ConfigurePageState extends State<ConfigurePage> {
                   child: InkWell(
                     key: const Key('validate'),
                     onTap: () {
-                      Scenario scenarioToExperiment = Scenario.fromColors(
+                      print("tubes" + tubes.toString());
+                      ScenarioView scenarioToExperiment = ScenarioView.fromColors(
                           tubes
                       );
-
-                      print(scenarioToExperiment);
+                      print("scenarioToExperiment" + scenarioToExperiment.toString());
                       if(! scenarioToExperiment.isValid ) {
                         _displayDialog(context, 'The scenario is not valid');
                         return;
@@ -182,8 +184,8 @@ class ConfigurePageState extends State<ConfigurePage> {
         });
   }
 
-  Future<void> solver(Scenario scenarioToExperiment) async {
-    AStarSearch aStart = AStarSearch(scenarioToExperiment);
+  Future<void> solver(ScenarioView scenarioToExperiment) async {
+    AStarSearchView aStart = AStarSearchView(scenarioToExperiment);
     solution = aStart.solve();
     if(!mounted) {
       return;

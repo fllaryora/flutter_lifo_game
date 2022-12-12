@@ -1,12 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:lifo_app/view/model/pair_ball.dart';
 
 class Ball extends StatefulWidget {
   Ball({super.key, required this.amount,
   required this.initialColorIndex, required this.onChanged});
   final int amount;
-  final int initialColorIndex;
+  final PairBall initialColorIndex;
   late BallState currentState;
   final Function onChanged;
   @override
@@ -16,11 +17,11 @@ class Ball extends StatefulWidget {
 
 class BallState extends State<Ball> {
 
-  late int currentColorIndex ;
+  late PairBall currentPairedColor ;
   late int maxIndex ;
   @override
   void initState() {
-    currentColorIndex = widget.initialColorIndex;
+    currentPairedColor = widget.initialColorIndex;
     maxIndex = widget.amount-1;
     super.initState();
   }
@@ -43,18 +44,21 @@ class BallState extends State<Ball> {
   ];
 
   Color getColor (){
-    return colorsList[currentColorIndex];
+    return colorsList[currentPairedColor.colorIndex];
   }
 
-  void cycleColor(){
-    currentColorIndex = currentColorIndex + 1;
-      if(currentColorIndex > maxIndex) {
-        currentColorIndex = 0;
+  void cycleColor() {
+    int nextColorIndex = currentPairedColor.colorIndex + 1;
+
+      if(nextColorIndex > maxIndex) {
+        currentPairedColor.colorIndex = 0;
+      } else {
+        currentPairedColor.colorIndex = nextColorIndex;
       }
       setState(() {
-        currentColorIndex = currentColorIndex;
+        currentPairedColor = currentPairedColor;
       });
-      widget.onChanged(currentColorIndex);
+      widget.onChanged(currentPairedColor);
   }
 
   @override

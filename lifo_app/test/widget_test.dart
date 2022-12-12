@@ -1,16 +1,11 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lifo_app/data/model/Tube.dart';
 import 'package:lifo_app/data/model/balls.dart';
 import 'package:lifo_app/data/model/scenario.dart';
 import 'package:lifo_app/view/configure.dart';
+import 'package:lifo_app/view/model/pair_ball.dart';
+import 'package:lifo_app/view/model/scenarioView.dart';
 
 import 'view/helper/make_testable.dart';
 
@@ -24,10 +19,10 @@ void main() {
     maxSpaces = _itemsPerTube;
     extraTubes = _extraTubes;
 
-    Scenario scenarioToExperiment = Scenario.fromColors([
-      [AMARILLO-1, ROJO-1],
-      [ROJO-1, AZUL-1,],
-      [AMARILLO-1, AZUL-1],
+    ScenarioView scenarioToExperiment = ScenarioView.fromColors([
+      [PairBall(AMARILLO-1,'00'), PairBall(ROJO-1,'01')],
+      [PairBall(ROJO-1,'10'), PairBall(AZUL-1,'11'),],
+      [PairBall(AMARILLO-1,'20'), PairBall(AZUL-1,'21')],
       [],//extra tubes
       []
     ]);
@@ -38,7 +33,7 @@ void main() {
       extraTubesToUse: _extraTubes,);
     // Build our app and trigger a frame.
     await tester.pumpWidget(buildTestableWidget( widget));
-    Scenario currentScenario = widget.getScenario();
+    ScenarioView currentScenario = widget.getScenario();
     // Verify that our counter starts at 0.
     //expect(find.text('0'), findsOneWidget);
     //expect(find.text('1'), findsNothing);
