@@ -44,8 +44,8 @@ class ConfigurePageState extends State<ConfigurePage> {
       for(int ballIndex = 0; ballIndex < widget.itemsPerTube; ballIndex++) {
         int indexColor = random.nextInt(widget.amountOfColors);
         Balls bola = bolas[indexColor + 1];
-        print("Agrego bola " + bola.name);
-        temporal.add(PairBall( indexColor,"${tubeIndex}${ballIndex}"));
+        //print("Agrego bola " + bola.name);
+        temporal.add(PairBall( indexColor,"${tubeIndex}-${ballIndex}"));
       }
       tubes.add(temporal);
     }
@@ -58,8 +58,8 @@ class ConfigurePageState extends State<ConfigurePage> {
 
   @override
   Widget build(BuildContext context) {
-    print("amountOfColors: " + widget.amountOfColors.toString());
-    print("itemsPerTube: " + widget.itemsPerTube.toString());
+    //print("amountOfColors: " + widget.amountOfColors.toString());
+    //print("itemsPerTube: " + widget.itemsPerTube.toString());
 
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;

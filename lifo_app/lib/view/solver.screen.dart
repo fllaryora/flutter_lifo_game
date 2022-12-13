@@ -80,7 +80,7 @@ class _SolverPageState extends State<SolverPage> {
                   height: ratio/4,
                 ),
                 Container(
-                  color: Colors.deepOrangeAccent,
+                  //color: Colors.deepOrangeAccent,
                   child: SizedBox(
                     width: width,
                     height: stackHeight,
