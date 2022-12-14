@@ -43,13 +43,8 @@ void main() {
       await tester.pumpWidget(buildTestableWidget(widget));
 
       ScenarioView currentScenario = widget.getScenario();
-      // Verify that our counter starts at 0.
-      //expect(find.text('0'), findsOneWidget);
-      //expect(find.text('1'), findsNothing);
       expect(scenarioToExperiment == currentScenario, true);
-      // Tap the '+' icon and trigger a frame.
       await tester.tap(find.byKey(Key('validate')));
-      //await tester.pump();
       await tester.pumpAndSettle();
       expect(find.byType(SolverPage), findsOneWidget);
     });
