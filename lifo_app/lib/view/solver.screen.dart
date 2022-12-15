@@ -173,7 +173,7 @@ class _SolverPageState extends State<SolverPage> {
         TubeView tubeDest = nextScenaro.content[tubeIndex];
         int color = tubeDest.topColor!;
         List<Balls> bolas = Balls.values;
-        Balls bola = bolas[color + 1];
+        Balls bola = bolas[color];
         moveDescription = "Move the ${bola.name.toLowerCase()} ball from tube"
             " ${(nextMove[0] + 1).toString()} to tube ${(nextMove[1] + 1).toString()}";
       }

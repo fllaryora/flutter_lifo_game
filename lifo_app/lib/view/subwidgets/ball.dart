@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:lifo_app/data/model/balls.dart';
 import 'package:lifo_app/view/model/pair_ball.dart';
 
 class Ball extends StatefulWidget {
@@ -25,15 +26,16 @@ class BallState extends State<Ball> {
     maxIndex = widget.amount-1;
     super.initState();
   }
+
   List<Color> colorsList = [
     Colors.red.shade300,//1
     Colors.yellow.shade200,
     Colors.blue.shade300,
     Colors.green.shade300,
-    Colors.purple.shade200,
+    Colors.pink.shade300,
     Colors.white,
     Colors.lightBlue.shade100,
-    Colors.indigo.shade200,
+    Colors.purple.shade200,//Colors.indigo.shade200,
     Colors.deepOrangeAccent.shade200,
     Colors.cyanAccent.shade200,
     Colors.greenAccent.shade200,
@@ -47,18 +49,23 @@ class BallState extends State<Ball> {
     return colorsList[currentPairedColor.colorIndex];
   }
 
-  void cycleColor() {
-    int nextColorIndex = currentPairedColor.colorIndex + 1;
-
-      if(nextColorIndex > maxIndex) {
-        currentPairedColor.colorIndex = 0;
-      } else {
-        currentPairedColor.colorIndex = nextColorIndex;
-      }
-      setState(() {
-        currentPairedColor = currentPairedColor;
-      });
-      widget.onChanged(currentPairedColor);
+  Widget getColorWidgetList() {
+    List<Widget> colorsListWidget = <Widget>[];
+    List<String> colorNames = Balls.values.map((Balls ball) => ball.name.replaceAll("_", " ")).toList();
+    for(int indexColor = 0 ; indexColor < colorsList.length; indexColor++) {
+      Color color = colorsList[indexColor];
+      String name = colorNames[indexColor];
+      colorsListWidget.add(ListTile(
+        leading: Icon(Icons.change_circle_rounded,color: color),
+        title: Text(name),
+        onTap: (){
+          Navigator.pop(context, indexColor);
+        },
+      ));
+    }
+    return Wrap(
+      children: colorsListWidget,
+    );
   }
 
   @override
@@ -72,8 +79,29 @@ class BallState extends State<Ball> {
           color: getColor(),
           shape: const CircleBorder(),
           child: InkWell(
-            onTap: () {
-              cycleColor();
+            onTap: () async {
+              int? nextColorIndex = await showModalBottomSheet<int>( isScrollControlled: true,
+               // backgroundColor: colorOnPrimary,
+                // set this when inner content overflows, making RoundedRectangleBorder not working as expected
+                clipBehavior: Clip.antiAlias,
+                // set shape to make top corners rounded
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
+                  ),
+                ),
+                context: context,
+                builder: (context) {
+                  return SingleChildScrollView(
+                    child: getColorWidgetList(),
+                  );
+                },);
+              if(nextColorIndex != null){
+                setState(() {
+                  currentPairedColor.colorIndex = nextColorIndex;
+                });
+              }
             },
             child: SizedBox(
               width: ratio,

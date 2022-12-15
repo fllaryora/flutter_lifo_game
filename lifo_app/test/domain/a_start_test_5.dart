@@ -23,19 +23,19 @@ void main() {
      maxColors = 13;
 
      scenarioToExperiment = Scenario.fromColors([
-       [BLANCO, AMARILLO, LILA, VIOLETA],
+       [BLANCO, AMARILLO, LILA, ROZA],
        [VERDE, ROJO, GRIS, PIEL],
        [NARANJA, BLANCO, AZUL, AMARILLO],
-       [NARANJA, VERDE, AMARILLO, VIOLETA],
+       [NARANJA, VERDE, AMARILLO, ROZA],
        [BLANCO, GRIS, NARANJA, BLANCO],
        [VERDE_CLARO, CELESTE_FUCCIA, VERDE, CELESTE_FUCCIA],
        [VERDE, CELESTE_FUCCIA, VERDE_CLARO, GRIS],
        [CELESTE, CELESTE_FUCCIA, AZUL, ROJO],
 
        [CELESTE, ROJO, NARANJA, CELESTE],
-       [CELESTE, AMARILLO, AZUL, VIOLETA],
+       [CELESTE, AMARILLO, AZUL, ROZA],
        [ROJO, PIEL, VERDE_CLARO, VERDE_CLARO],
-       [LILA, AZUL, VIOLETA, PIEL],
+       [LILA, AZUL, ROZA, PIEL],
        [PIEL, GRIS, LILA, LILA],
        [],//extra tubes
        []

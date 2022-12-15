@@ -23,10 +23,14 @@ void main() {
       maxSpaces = _itemsPerTube;
       extraTubes = _extraTubes;
 
+      /*
+      * Agrego bola LILE Agrego bola LIGHT_PINK
+      *    Agrego bola GREEN Agrego bola ORANGE
+      *  Agrego bola LIGHT_GREEN   Agrego bola BLUE*/
       scenarioToExperiment = ScenarioView.fromColors([
-        [PairBall(AMARILLO-1,'0-0'), PairBall(ROJO-1,'0-1')],
-        [PairBall(ROJO-1,'1-0'), PairBall(AZUL-1,'1-1'),],
-        [PairBall(AMARILLO-1,'2-0'), PairBall(AZUL-1,'2-1')],
+        [PairBall(LILA,'0-0'), PairBall(PIEL,'0-1')],
+        [PairBall(VERDE,'1-0'), PairBall(NARANJA,'1-1'),],
+        [PairBall(VERDE_CLARO,'2-0'), PairBall(AZUL,'2-1')],
         [],//extra tubes
         []
       ]);
@@ -44,9 +48,9 @@ void main() {
 
       ScenarioView currentScenario = widget.getScenario();
       expect(scenarioToExperiment == currentScenario, true);
-      await tester.tap(find.byKey(Key('validate')));
+      /*await tester.tap(find.byKey(Key('validate')));
       await tester.pumpAndSettle();
-      expect(find.byType(SolverPage), findsOneWidget);
+      expect(find.byType(SolverPage), findsOneWidget);*/
     });
   });
 }

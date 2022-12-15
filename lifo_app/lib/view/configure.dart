@@ -42,8 +42,10 @@ class ConfigurePageState extends State<ConfigurePage> {
     for(int tubeIndex = 0; tubeIndex < widget.amountOfColors; tubeIndex++) {
       List<PairBall> temporal = <PairBall>[];
       for(int ballIndex = 0; ballIndex < widget.itemsPerTube; ballIndex++) {
-        int indexColor = random.nextInt(widget.amountOfColors);
-        Balls bola = bolas[indexColor + 1];
+        //Balls.values.length
+        //widget.amountOfColors
+        int indexColor = random.nextInt(Balls.values.length);
+        Balls bola = bolas[indexColor];
         //print("Agrego bola " + bola.name);
         temporal.add(PairBall( indexColor,"${tubeIndex}-${ballIndex}"));
       }

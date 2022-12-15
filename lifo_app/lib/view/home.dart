@@ -23,6 +23,13 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController colorsController = TextEditingController(text: '3');
 
   @override
+  void dispose() {
+    itemController.dispose();
+    extrasController.dispose();
+    colorsController.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
 
     return Scaffold(
