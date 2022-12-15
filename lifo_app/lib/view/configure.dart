@@ -34,6 +34,7 @@ class ConfigurePageState extends State<ConfigurePage> {
 
   late List<List<PairBall>> tubes;
   List<ScenarioView>? solution;
+  bool isLoading = false;
   @override
   void initState() {
     tubes = <List<PairBall>>[];
@@ -121,42 +122,51 @@ class ConfigurePageState extends State<ConfigurePage> {
                 SizedBox(
                   height: ratio,
                 ),
-                Material(
-                  color: Colors.blueGrey.shade300,
-                  borderRadius: BorderRadius.circular(ratio*2.5),
-                  child: InkWell(
-                    key: const Key('validate'),
-                    onTap: () {
-                      print("tubes" + tubes.toString());
-                      ScenarioView scenarioToExperiment = ScenarioView.fromColors(
-                          tubes
-                      );
-                      print("scenarioToExperiment" + scenarioToExperiment.toString());
-                      if(! scenarioToExperiment.isValid ) {
-                        _displayDialog(context, 'The scenario is not valid');
-                        return;
-                      } else {
-                        //_displayDialog(context, 'VALID');
-                        if(mounted) {
-                          solver(scenarioToExperiment);
+                Visibility(visible: isLoading, child: CircularProgressIndicator()),
+                Visibility(visible: !isLoading, child:
+                  Material(
+                    color: Colors.blueGrey.shade300,
+                    borderRadius: BorderRadius.circular(ratio*2.5),
+                    child: InkWell(
+                      key: const Key('validate'),
+                      onTap: () {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        //print("tubes" + tubes.toString());
+                        ScenarioView scenarioToExperiment = ScenarioView.fromColors(
+                            tubes
+                        );
+                        //print("scenarioToExperiment" + scenarioToExperiment.toString());
+                        if(! scenarioToExperiment.isValid ) {
+                          _displayDialog(context, 'The scenario is not valid');
+                          setState(() {
+                            isLoading = false;
+                          });
+                          return;
+                        } else {
+                          //_displayDialog(context, 'VALID');
+                          if(mounted) {
+                            solver(scenarioToExperiment);
+                          }
+
                         }
 
-                      }
-
-                    },
-                    borderRadius: BorderRadius.circular(ratio*2.5),
-                    child: Container(
-                      width: ratio*2.5*4.0,
-                      height: ratio*2.5,
-                      alignment: Alignment.center,
-                      child: const Text('Validate',
-                          style: TextStyle(fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.white
-                          )
+                      },
+                      borderRadius: BorderRadius.circular(ratio*2.5),
+                      child: Container(
+                        width: ratio*2.5*4.0,
+                        height: ratio*2.5,
+                        alignment: Alignment.center,
+                        child: const Text('Validate',
+                            style: TextStyle(fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: Colors.white
+                            )
+                        ),
                       ),
                     ),
-                  ),
+                  )
                 ),
                 SizedBox(
                   height: ratio,
@@ -192,6 +202,11 @@ class ConfigurePageState extends State<ConfigurePage> {
     if(!mounted) {
       return;
     }
+
+    setState(() {
+      isLoading = false;
+    });
+
     if(solution != null) {
       //_displayDialog(context, 'The SOLUTION was found');
       Navigator.push(
