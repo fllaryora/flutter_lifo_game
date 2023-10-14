@@ -22,6 +22,13 @@ class _MyHomePageState extends State<MyHomePage> {
   int _amountOfColors = 3;
   TextEditingController colorsController = TextEditingController(text: '3');
 
+  final int MAX_EXTRA_TUBES = 6;
+  final int  MAX_COLORS = 16;
+  final int MAX_ITEMS_PER_TUBE = 8;
+
+  final int MIN_EXTRA_TUBES = 1;
+  final int MIN_COLORS = 1;
+  final int MIN_ITEMS_PER_TUBE = 2;
   @override
   void dispose() {
     itemController.dispose();
@@ -105,26 +112,33 @@ class _MyHomePageState extends State<MyHomePage> {
                 borderRadius: BorderRadius.circular(50),
                 child: InkWell(
                   onTap: () {
-                    if(_itemsPerTube > 7) {
-                      _displayDialog(context, 'Item per tube must be less than 8');
+
+                    if(_itemsPerTube >= MAX_ITEMS_PER_TUBE) {
+                      _displayDialog(context, 'Item per tube must be less than $MAX_ITEMS_PER_TUBE');
                       return;
                     }
-                    if(_amountOfColors > 15) {
-                      _displayDialog(context, 'Amount of colors must be less than 16');
+
+                    if(_amountOfColors >= MAX_COLORS) {
+                      _displayDialog(context, 'Amount of colors must be less than $MAX_COLORS');
                       return;
                     }
-                    if(_extraTubes > 3) {
-                      _displayDialog(context, 'Extra tubes must be less than 4');
+                    if(_extraTubes >= MAX_EXTRA_TUBES) {
+                      _displayDialog(context, 'Extra tubes must be less than $MAX_EXTRA_TUBES');
                       return;
                     }
-                    if(_extraTubes < 2 ) {
-                      _displayDialog(context, 'Extra tubes must be grater than 1');
+                    if(_extraTubes <= MIN_EXTRA_TUBES ) {
+                      _displayDialog(context, 'Extra tubes must be grater than $MIN_EXTRA_TUBES');
                       return;
                     }
-                    if(_amountOfColors < 2 ) {
-                      _displayDialog(context, 'Amount of colors must be grater than 1');
+                    if(_amountOfColors <= MIN_COLORS ) {
+                      _displayDialog(context, 'Amount of colors must be grater than $MIN_COLORS');
                       return;
                     }
+                    if(_itemsPerTube <= MIN_ITEMS_PER_TUBE ) {
+                      _displayDialog(context, 'Item per tube must be grater than $MIN_ITEMS_PER_TUBE');
+                      return;
+                    }
+
                     maxColors = _amountOfColors;
                     maxSpaces = _itemsPerTube;
                     extraTubes = _extraTubes;
@@ -163,6 +177,11 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (context) {
           return AlertDialog(
             title: Text(message),
+            actions: <Widget>[
+              TextButton(onPressed: () {
+               Navigator.of(context).pop();
+             }, child:  Text('Ok'))
+             ],
           );
         });
   }

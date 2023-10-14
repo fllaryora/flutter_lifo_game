@@ -7,7 +7,6 @@ import 'package:lifo_app/data/model/scenario.dart';
 import 'package:lifo_app/view/configure.dart';
 import 'package:lifo_app/view/model/pair_ball.dart';
 import 'package:lifo_app/view/model/scenarioView.dart';
-import 'package:lifo_app/view/solver.screen.dart';
 
 import 'view/helper/make_testable.dart';
 
